@@ -104,13 +104,23 @@
           <img id="nft-display" src="images/nft/8.png" alt="Wall Broker">
           <!-- Tap hand icon - always visible, pulsing -->
           <div class="nft-tap-icon" id="nft-tap">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <!-- Index finger pointing up -->
-              <path d="M50 5 C48.5 3.5, 46 3, 44.5 4.5 C43 6, 43 8.5, 43 11 L43 38 L38.5 33.5 C37 32, 34.5 32, 33 33.5 C31.5 35, 31.5 37.5, 33 39 L44 50 L44 50 L44 50 C44 50, 44 50, 44 50 L44 85 C44 90, 48 94, 53 94 L60 94 C65 94, 69 90, 69 85 L69 50 C69 47, 68 44, 66 42 C64 40, 61.5 40, 60 41.5 L56 45 L56 11 C56 8.5, 56 6, 54.5 4.5 C53 3, 51.5 3.5, 50 5 Z" fill="rgba(0,0,0,0.85)"/>
-              <!-- Finger joint lines for realism -->
-              <line x1="50" y1="25" x2="56" y2="25" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
-              <line x1="50" y1="32" x2="56" y2="32" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+              <g fill="rgba(0,0,0,0.85)">
+                <!-- Index finger pointing up -->
+                <rect x="30" y="0" width="10" height="42" rx="5"/>
+                <!-- Middle finger -->
+                <rect x="41" y="10" width="10" height="32" rx="5"/>
+                <!-- Ring finger -->
+                <rect x="52" y="16" width="10" height="26" rx="5"/>
+                <!-- Pinky finger -->
+                <rect x="63" y="22" width="10" height="20" rx="5"/>
+                <!-- Palm -->
+                <rect x="25" y="40" width="52" height="30" rx="6"/>
+                <!-- Thumb -->
+                <rect x="14" y="36" width="12" height="22" rx="6"/>
+              </g>
             </svg>
+            <div class="nft-tap-text">Click</div>
           </div>
         </div>
         <div class="nft-hint">Tap to see next broker</div>

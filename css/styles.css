@@ -589,7 +589,7 @@ body::after {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70px;
-  height: 70px;
+  height: 90px;
   z-index: 10;
   pointer-events: none;
   filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.6));
@@ -600,6 +600,18 @@ body::after {
 .nft-tap-icon svg {
   width: 70px;
   height: 70px;
+  display: block;
+}
+
+.nft-tap-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.12em;
+  margin-top: 2px;
 }
 
 .nft-tap-icon.hidden {
