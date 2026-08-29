@@ -43,6 +43,8 @@ function cycleNFT() {
 function updateNFTViewer() {
   const id = NFT_LIST[nftIndex];
   const img = document.getElementById('nft-display');
+  const viewer = document.getElementById('nft-viewer');
+  const tapIcon = document.getElementById('nft-tap');
 
   img.style.opacity = '0';
 
@@ -53,6 +55,14 @@ function updateNFTViewer() {
       if (!nftBusy) updateNFTViewer();
     };
     img.style.opacity = '1';
+
+    if (nftIndex === 0) {
+      viewer.classList.add('first-image');
+      tapIcon.classList.remove('hidden');
+    } else {
+      viewer.classList.remove('first-image');
+      tapIcon.classList.add('hidden');
+    }
   }, 100);
 }
 

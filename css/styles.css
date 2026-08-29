@@ -546,6 +546,11 @@ body::after {
   position: relative;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transition: max-width 0.3s ease;
+}
+
+.nft-viewer.first-image {
+  max-width: 320px;
 }
 
 .nft-frame {
@@ -557,6 +562,11 @@ body::after {
   position: relative;
   transition: border-color var(--transition), box-shadow var(--transition);
   background: rgba(30,25,18,0.8);
+}
+
+.nft-viewer.first-image .nft-frame {
+  border-color: rgba(198, 242, 33, 0.3);
+  box-shadow: 0 0 30px rgba(198, 242, 33, 0.1);
 }
 
 .nft-viewer:hover .nft-frame {
@@ -572,36 +582,34 @@ body::after {
   transition: opacity 0.12s ease;
 }
 
-/* Tap hand icon - large shadow cursor on first image */
+/* Hand pointer click indicator — only on first image */
 .nft-tap-icon {
   position: absolute;
-  bottom: 50%;
-  right: 30%;
-  transform: translate(50%, 50%);
-  width: 120px;
-  height: 120px;
+  bottom: 18%;
+  right: 18%;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 3;
-  animation: tapFloat 1.5s ease-in-out infinite;
+  animation: handBounce 1s ease-in-out infinite;
   pointer-events: none;
-  filter: drop-shadow(0 0 30px rgba(198, 242, 33, 0.45));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
 .nft-tap-icon svg {
-  width: 100px;
-  height: 100px;
-  opacity: 0.9;
+  width: 56px;
+  height: 56px;
 }
 
 .nft-tap-icon.hidden {
   display: none;
 }
 
-@keyframes tapFloat {
-  0%, 100% { transform: translate(50%, 50%) scale(1); opacity: 0.85; }
-  50% { transform: translate(50%, 50%) scale(1.08); opacity: 1; }
+@keyframes handBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 .nft-hint {
