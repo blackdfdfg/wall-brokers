@@ -1,95 +1,74 @@
 /* ========================================
-   WALL BROKERS — Main JS
+   WALL BROKERS — App JS
    ======================================== */
 
-// ========== NFT IMAGE LIST (easily expandable) ==========
-// To add new NFTs: just append the filename to this array.
-// New images dropped into images/nft/ will appear in the grid.
-const NFT_IMAGES = [
-  '1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png',
-  '11.png','12.png','13.png','14.png','15.png','20.png','25.png','30.png',
-  '40.png','50.png','60.png','70.png','80.png','90.png','100.png',
-  '150.png','200.png'
+// ========== NFT LIST (50 NFTs for showcase cycle) ==========
+const NFT_LIST = [
+  '1','2','3','4','5','6','7','8','9','10',
+  '11','12','13','14','15','20','25','30','40','50',
+  '60','70','80','90','100','150','200',
+  '5','10','15','20','25','30','35','40','45','50',
+  '55','60','65','70','75','80','85','90','95','100',
+  '110','120','130'
 ];
 
-const GRID_PAGE_SIZE = 16;
-let gridCurrentPage = 0;
+let nftIndex = 0;
 
 // ========== LOADING ANIMATION ==========
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   const mainSite = document.getElementById('main-site');
 
-  // Start the crack + reveal after bar fills
+  // Phase 1: Bar fills (1.1s)
+  // Phase 2: Crack + flash (at 1.2s)
   setTimeout(() => {
     loader.classList.add('cracking');
-  }, 1300);
+  }, 1200);
 
+  // Phase 3: Lightning flash
+  setTimeout(() => {
+    loader.classList.add('flash');
+  }, 1250);
+
+  // Phase 4: Reveal site
   setTimeout(() => {
     loader.classList.add('loaded');
     mainSite.classList.add('visible');
     document.body.style.overflow = '';
-  }, 1800);
+  }, 1700);
 
-  // Preload hero images
-  document.querySelectorAll('.hero-char').forEach(img => {
-    img.addEventListener('error', () => {
-      img.style.display = 'none';
-    });
-  });
-
-  // Init showcase
-  renderShowcaseGrid();
+  // Init NFT viewer
+  updateNFTViewer();
 });
 
-// ========== SHOWCASE GRID ==========
-function renderShowcaseGrid() {
-  const grid = document.getElementById('showcase-grid');
-  const btn = document.getElementById('load-more-btn');
-  const start = 0;
-  const end = Math.min(GRID_PAGE_SIZE, NFT_IMAGES.length);
-
-  grid.innerHTML = '';
-  renderGridItems(grid, start, end);
-
-  if (end >= NFT_IMAGES.length) {
-    btn.style.display = 'none';
-  } else {
-    btn.style.display = 'block';
-  }
-
-  gridCurrentPage = 1;
+// ========== NFT VIEWER (Click to Cycle) ==========
+function cycleNFT() {
+  nftIndex = (nftIndex + 1) % NFT_LIST.length;
+  updateNFTViewer();
 }
 
-function loadMore() {
-  const grid = document.getElementById('showcase-grid');
-  const btn = document.getElementById('load-more-btn');
-  const start = gridCurrentPage * GRID_PAGE_SIZE;
-  const end = Math.min(start + GRID_PAGE_SIZE, NFT_IMAGES.length);
+function updateNFTViewer() {
+  const id = NFT_LIST[nftIndex];
+  const img = document.getElementById('nft-display');
+  const badge = document.getElementById('nft-id');
+  const counter = document.getElementById('nft-counter');
+  const progress = document.getElementById('nft-progress');
 
-  renderGridItems(grid, start, end);
-  gridCurrentPage++;
+  // Fade out
+  img.style.opacity = '0';
 
-  if (end >= NFT_IMAGES.length) {
-    btn.style.display = 'none';
-  }
-}
-
-function renderGridItems(container, start, end) {
-  for (let i = start; i < end; i++) {
-    const src = NFT_IMAGES[i];
-    const num = src.replace('.png', '');
-    const card = document.createElement('div');
-    card.className = 'showcase-card';
-    card.innerHTML = `
-      <img src="images/nft/${src}" alt="Wall Broker #${num}" loading="lazy">
-      <div class="showcase-card-id">#${num}</div>
-    `;
-    card.querySelector('img').addEventListener('error', function() {
-      card.style.display = 'none';
-    });
-    container.appendChild(card);
-  }
+  setTimeout(() => {
+    img.src = 'images/nft/' + id + '.png';
+    img.onerror = function() {
+      // If image doesn't exist, skip to next
+      nftIndex = (nftIndex + 1) % NFT_LIST.length;
+      updateNFTViewer();
+    };
+    badge.textContent = '#' + id;
+    counter.textContent = (nftIndex + 1) + ' / ' + NFT_LIST.length;
+    progress.style.width = ((nftIndex + 1) / NFT_LIST.length * 100) + '%';
+    img.style.opacity = '1';
+  }, 150);
 }
 
 // ========== WHITELIST MODAL ==========
@@ -155,37 +134,24 @@ function wlConfirmStep() {
 function wlVerifyComment() {
   const link = document.getElementById('wl-comment-link').value.trim();
   if (!link) return;
-
-  // Simulate verification
-  const verifyDiv = document.getElementById('wl-comment-verify');
-  const doneDiv = document.getElementById('wl-comment-done');
-  verifyDiv.style.display = 'none';
-  doneDiv.style.display = 'flex';
-
+  document.getElementById('wl-comment-verify').style.display = 'none';
+  document.getElementById('wl-comment-done').style.display = 'flex';
   setTimeout(() => {
     wlCurrentStep++;
     showWlStep(wlCurrentStep);
-  }, 1200);
+  }, 1000);
 }
 
 function wlSubmit() {
   const wallet = document.getElementById('wl-wallet').value.trim();
   if (!wallet) return;
-
   wlData.wallet = wallet;
-
-  // Fill summary
   document.getElementById('wl-summary-user').textContent = '@' + wlData.username.replace('@', '');
-  const shortWallet = wlData.wallet.substring(0, 6) + '...' + wlData.wallet.substring(wlData.wallet.length - 4);
-  document.getElementById('wl-summary-wallet').textContent = shortWallet;
-
+  document.getElementById('wl-summary-wallet').textContent = wlData.wallet.substring(0, 6) + '...' + wlData.wallet.substring(wlData.wallet.length - 4);
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }
 
-// Close modal on overlay click
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'wl-modal') {
-    closeWhitelistModal();
-  }
+  if (e.target.id === 'wl-modal') closeWhitelistModal();
 });
