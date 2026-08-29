@@ -311,14 +311,15 @@ body::after {
 }
 
 .hero-logo {
-  width: 120px;
-  height: 120px;
-  border-radius: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 14px;
   object-fit: cover;
   image-rendering: pixelated;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 1;
+  filter: drop-shadow(0 0 12px rgba(198, 242, 33, 0.25));
 }
 
 .hero-banner {
@@ -571,32 +572,36 @@ body::after {
   transition: opacity 0.12s ease;
 }
 
-/* Tap hand icon - pulsing next to NFT */
+/* Tap hand icon - large shadow cursor on first image */
 .nft-tap-icon {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
+  bottom: 50%;
+  right: 30%;
+  transform: translate(50%, 50%);
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 3;
-  animation: tapPulse 1.5s ease-in-out infinite;
+  animation: tapFloat 1.5s ease-in-out infinite;
   pointer-events: none;
+  filter: drop-shadow(0 0 30px rgba(198, 242, 33, 0.45));
 }
 
 .nft-tap-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.9;
 }
 
-@keyframes tapPulse {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.12); opacity: 1; }
+.nft-tap-icon.hidden {
+  display: none;
+}
+
+@keyframes tapFloat {
+  0%, 100% { transform: translate(50%, 50%) scale(1); opacity: 0.85; }
+  50% { transform: translate(50%, 50%) scale(1.08); opacity: 1; }
 }
 
 .nft-hint {
@@ -885,7 +890,7 @@ body::after {
 /* ========== RESPONSIVE ========== */
 @media (max-width: 480px) {
   .hero { padding: 58px 10px 12px; }
-  .hero-logo { width: 96px; height: 96px; }
+  .hero-logo { width: 64px; height: 64px; }
   .hero-banner { border-radius: 10px; }
   .info-inner { grid-template-columns: repeat(2, 1fr); }
   .info-item { padding: 9px 4px; }

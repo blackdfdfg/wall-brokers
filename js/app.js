@@ -5,6 +5,7 @@
 const NFT_LIST = ['8','22','32','38','42','45','114','119','312','325','375','475','515','623','635','785','871','921','999'];
 let nftIndex = 0;
 let nftBusy = false;
+let nftTapped = false;
 
 // ========== LOADING ==========
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,6 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function cycleNFT() {
   if (nftBusy) return;
   nftBusy = true;
+
+  if (!nftTapped) {
+    nftTapped = true;
+    const tapIcon = document.getElementById('nft-tap');
+    if (tapIcon) tapIcon.classList.add('hidden');
+  }
 
   nftIndex = (nftIndex + 1) % NFT_LIST.length;
   updateNFTViewer();
