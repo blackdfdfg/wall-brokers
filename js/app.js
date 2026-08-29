@@ -2,51 +2,40 @@
    WALL BROKERS — App JS
    ======================================== */
 
-// ========== NFT LIST (specific IDs requested) ==========
 const NFT_LIST = ['8','22','32','38','42','45','114','119','312','325','375','475','515','623','635','785','871','921','999'];
 let nftIndex = 0;
-let nftBusy = false; // debounce flag
+let nftBusy = false;
 
 // ========== LOADING ==========
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   const mainSite = document.getElementById('main-site');
 
-  setTimeout(() => { loader.classList.add('cracking'); }, 1000);
-  setTimeout(() => { loader.classList.add('flash'); }, 1050);
+  setTimeout(() => { loader.classList.add('cracking'); }, 900);
+  setTimeout(() => { loader.classList.add('flash'); }, 950);
   setTimeout(() => {
     loader.classList.add('loaded');
     mainSite.classList.add('visible');
     document.body.style.overflow = '';
-  }, 1500);
+  }, 1400);
 
   updateNFTViewer();
 });
 
-// ========== NFT VIEWER (debounced single-step) ==========
+// ========== NFT VIEWER ==========
 function cycleNFT() {
-  if (nftBusy) return; // prevent rapid clicks
+  if (nftBusy) return;
   nftBusy = true;
-
-  // Hide tap hint after first click
-  const hint = document.getElementById('nft-tap-hint');
-  if (hint) hint.style.display = 'none';
-  const hintText = document.getElementById('nft-hint-text');
-  if (hintText) hintText.style.opacity = '0';
 
   nftIndex = (nftIndex + 1) % NFT_LIST.length;
   updateNFTViewer();
 
-  // Unlock after transition
-  setTimeout(() => { nftBusy = false; }, 300);
+  setTimeout(() => { nftBusy = false; }, 250);
 }
 
 function updateNFTViewer() {
   const id = NFT_LIST[nftIndex];
   const img = document.getElementById('nft-display');
-  const badge = document.getElementById('nft-id');
-  const counter = document.getElementById('nft-counter');
-  const progress = document.getElementById('nft-progress');
 
   img.style.opacity = '0';
 
@@ -56,14 +45,11 @@ function updateNFTViewer() {
       nftIndex = (nftIndex + 1) % NFT_LIST.length;
       if (!nftBusy) updateNFTViewer();
     };
-    badge.textContent = '#' + id;
-    counter.textContent = (nftIndex + 1) + ' / ' + NFT_LIST.length;
-    progress.style.width = ((nftIndex + 1) / NFT_LIST.length * 100) + '%';
     img.style.opacity = '1';
-  }, 120);
+  }, 100);
 }
 
-// ========== COLLAB PAGE ==========
+// ========== COLLAB ==========
 function showCollab() {
   const el = document.getElementById('collab-page');
   if (el.style.display === 'none') {
@@ -74,7 +60,7 @@ function showCollab() {
   }
 }
 
-// ========== WHITELIST MODAL ==========
+// ========== WHITELIST ==========
 const WL_TOTAL_STEPS = 6;
 let wlCurrentStep = 0;
 let wlData = {};
