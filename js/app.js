@@ -6,6 +6,7 @@ const NFT_LIST = ['8','22','32','38','42','45','114','119','312','325','375','47
 let nftIndex = 0;
 let nftBusy = false;
 let nftTapped = false;
+let handPermanentlyHidden = false;
 
 // ========== LOADING ==========
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,6 +31,7 @@ function cycleNFT() {
 
   if (!nftTapped) {
     nftTapped = true;
+    handPermanentlyHidden = true;
     const tapIcon = document.getElementById('nft-tap');
     if (tapIcon) tapIcon.classList.add('hidden');
   }
@@ -56,7 +58,7 @@ function updateNFTViewer() {
     };
     img.style.opacity = '1';
 
-    if (nftIndex === 0) {
+    if (nftIndex === 0 && !handPermanentlyHidden) {
       viewer.classList.add('first-image');
       tapIcon.classList.remove('hidden');
     } else {
