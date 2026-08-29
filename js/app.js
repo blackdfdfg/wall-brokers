@@ -154,30 +154,3 @@ function wlSubmit() {
 document.addEventListener('click', (e) => {
   if (e.target.id === 'wl-modal') closeWhitelistModal();
 });
-
-// Smart DM link — try X app on mobile, fallback to profile on web
-document.addEventListener('DOMContentLoaded', () => {
-  const dmBtn = document.querySelector('.collab-dm-btn');
-  if (dmBtn) {
-    dmBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isMobile) {
-        // Try opening X app DM compose directly
-        const appUrl = 'twitter://messages/compose?screen_name=Wall_Brokers';
-        const webUrl = 'https://x.com/Wall_Brokers';
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = appUrl;
-        document.body.appendChild(iframe);
-        // After brief delay, fallback to web profile
-        setTimeout(() => {
-          document.body.removeChild(iframe);
-          window.open(webUrl, '_blank', 'noopener');
-        }, 2500);
-      } else {
-        window.open('https://x.com/Wall_Brokers', '_blank', 'noopener');
-      }
-    });
-  }
-});
