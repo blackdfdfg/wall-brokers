@@ -321,6 +321,17 @@ body::after {
   z-index: 1;
 }
 
+.hero-banner {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+  image-rendering: auto;
+}
+
 .hero-title {
   font-family: 'Space Mono', monospace;
   font-size: clamp(1.8rem, 8vw, 3rem);
@@ -875,6 +886,7 @@ body::after {
 @media (max-width: 480px) {
   .hero { padding: 58px 10px 12px; }
   .hero-logo { width: 96px; height: 96px; }
+  .hero-banner { border-radius: 10px; }
   .info-inner { grid-template-columns: repeat(2, 1fr); }
   .info-item { padding: 9px 4px; }
   .actions { flex-direction: column; align-items: center; }
