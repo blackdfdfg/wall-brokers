@@ -585,22 +585,23 @@ body::after {
 /* Hand pointer click indicator — only on first image */
 .nft-tap-icon {
   position: absolute;
-  bottom: 18%;
-  right: 18%;
-  width: 72px;
-  height: 72px;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 3;
-  animation: handBounce 1s ease-in-out infinite;
+  animation: handBounce 1.2s ease-in-out infinite;
   pointer-events: none;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+  opacity: 0.85;
 }
 
 .nft-tap-icon svg {
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 90px;
 }
 
 .nft-tap-icon.hidden {
@@ -608,8 +609,8 @@ body::after {
 }
 
 @keyframes handBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 .nft-hint {
