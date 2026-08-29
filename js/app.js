@@ -2,49 +2,43 @@
    WALL BROKERS — App JS
    ======================================== */
 
-// ========== NFT LIST (50 NFTs for showcase cycle) ==========
-const NFT_LIST = [
-  '1','2','3','4','5','6','7','8','9','10',
-  '11','12','13','14','15','20','25','30','40','50',
-  '60','70','80','90','100','150','200',
-  '5','10','15','20','25','30','35','40','45','50',
-  '55','60','65','70','75','80','85','90','95','100',
-  '110','120','130'
-];
-
+// ========== NFT LIST (specific IDs requested) ==========
+const NFT_LIST = ['8','22','32','38','42','45','114','119','312','325','375','475','515','623','635','785','871','921','999'];
 let nftIndex = 0;
+let nftBusy = false; // debounce flag
 
-// ========== LOADING ANIMATION ==========
+// ========== LOADING ==========
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   const mainSite = document.getElementById('main-site');
 
-  // Phase 1: Bar fills (1.1s)
-  // Phase 2: Crack + flash (at 1.2s)
-  setTimeout(() => {
-    loader.classList.add('cracking');
-  }, 1200);
-
-  // Phase 3: Lightning flash
-  setTimeout(() => {
-    loader.classList.add('flash');
-  }, 1250);
-
-  // Phase 4: Reveal site
+  setTimeout(() => { loader.classList.add('cracking'); }, 1000);
+  setTimeout(() => { loader.classList.add('flash'); }, 1050);
   setTimeout(() => {
     loader.classList.add('loaded');
     mainSite.classList.add('visible');
     document.body.style.overflow = '';
-  }, 1700);
+  }, 1500);
 
-  // Init NFT viewer
   updateNFTViewer();
 });
 
-// ========== NFT VIEWER (Click to Cycle) ==========
+// ========== NFT VIEWER (debounced single-step) ==========
 function cycleNFT() {
+  if (nftBusy) return; // prevent rapid clicks
+  nftBusy = true;
+
+  // Hide tap hint after first click
+  const hint = document.getElementById('nft-tap-hint');
+  if (hint) hint.style.display = 'none';
+  const hintText = document.getElementById('nft-hint-text');
+  if (hintText) hintText.style.opacity = '0';
+
   nftIndex = (nftIndex + 1) % NFT_LIST.length;
   updateNFTViewer();
+
+  // Unlock after transition
+  setTimeout(() => { nftBusy = false; }, 300);
 }
 
 function updateNFTViewer() {
@@ -54,21 +48,30 @@ function updateNFTViewer() {
   const counter = document.getElementById('nft-counter');
   const progress = document.getElementById('nft-progress');
 
-  // Fade out
   img.style.opacity = '0';
 
   setTimeout(() => {
     img.src = 'images/nft/' + id + '.png';
     img.onerror = function() {
-      // If image doesn't exist, skip to next
       nftIndex = (nftIndex + 1) % NFT_LIST.length;
-      updateNFTViewer();
+      if (!nftBusy) updateNFTViewer();
     };
     badge.textContent = '#' + id;
     counter.textContent = (nftIndex + 1) + ' / ' + NFT_LIST.length;
     progress.style.width = ((nftIndex + 1) / NFT_LIST.length * 100) + '%';
     img.style.opacity = '1';
-  }, 150);
+  }, 120);
+}
+
+// ========== COLLAB PAGE ==========
+function showCollab() {
+  const el = document.getElementById('collab-page');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    el.style.display = 'none';
+  }
 }
 
 // ========== WHITELIST MODAL ==========
@@ -91,12 +94,12 @@ function closeWhitelistModal() {
 }
 
 function updateWlSteps() {
-  const container = document.getElementById('wl-steps');
-  container.innerHTML = '';
+  const c = document.getElementById('wl-steps');
+  c.innerHTML = '';
   for (let i = 0; i < WL_TOTAL_STEPS; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'wl-step-dot' + (i === wlCurrentStep ? ' active' : '') + (i < wlCurrentStep ? ' done' : '');
-    container.appendChild(dot);
+    const d = document.createElement('div');
+    d.className = 'wl-step-dot' + (i === wlCurrentStep ? ' active' : '') + (i < wlCurrentStep ? ' done' : '');
+    c.appendChild(d);
   }
 }
 
@@ -110,20 +113,17 @@ function showWlStep(n) {
 
 function wlNext() {
   if (wlCurrentStep === 0) {
-    const username = document.getElementById('wl-username').value.trim();
-    if (!username) return;
-    wlData.username = username;
+    const u = document.getElementById('wl-username').value.trim();
+    if (!u) return;
+    wlData.username = u;
   }
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }
 
 function wlShowConfirm(type) {
-  if (type === 'like') {
-    document.getElementById('wl-like-confirm').style.display = 'inline-flex';
-  } else if (type === 'rt') {
-    document.getElementById('wl-rt-confirm').style.display = 'inline-flex';
-  }
+  if (type === 'like') document.getElementById('wl-like-confirm').style.display = 'inline-flex';
+  else if (type === 'rt') document.getElementById('wl-rt-confirm').style.display = 'inline-flex';
 }
 
 function wlConfirmStep() {
@@ -132,22 +132,18 @@ function wlConfirmStep() {
 }
 
 function wlVerifyComment() {
-  const link = document.getElementById('wl-comment-link').value.trim();
-  if (!link) return;
+  if (!document.getElementById('wl-comment-link').value.trim()) return;
   document.getElementById('wl-comment-verify').style.display = 'none';
   document.getElementById('wl-comment-done').style.display = 'flex';
-  setTimeout(() => {
-    wlCurrentStep++;
-    showWlStep(wlCurrentStep);
-  }, 1000);
+  setTimeout(() => { wlCurrentStep++; showWlStep(wlCurrentStep); }, 800);
 }
 
 function wlSubmit() {
-  const wallet = document.getElementById('wl-wallet').value.trim();
-  if (!wallet) return;
-  wlData.wallet = wallet;
+  const w = document.getElementById('wl-wallet').value.trim();
+  if (!w) return;
+  wlData.wallet = w;
   document.getElementById('wl-summary-user').textContent = '@' + wlData.username.replace('@', '');
-  document.getElementById('wl-summary-wallet').textContent = wlData.wallet.substring(0, 6) + '...' + wlData.wallet.substring(wlData.wallet.length - 4);
+  document.getElementById('wl-summary-wallet').textContent = w.substring(0, 6) + '...' + w.substring(w.length - 4);
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }

@@ -10,41 +10,34 @@
 </head>
 <body>
 
-  <!-- ========== LOADING SCREEN ========== -->
+  <!-- LOADING -->
   <div id="loader">
-    <div class="loader-wall"></div>
-    <div class="loader-right"></div>
+    <div class="loader-wall-left"></div>
+    <div class="loader-wall-right"></div>
     <div class="loader-lightning"></div>
     <svg class="loader-cracks" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="50" y1="0" x2="48" y2="20" stroke="#C6F221" stroke-width="0.8" opacity="0.7"/>
-      <line x1="48" y1="20" x2="52" y2="40" stroke="#C6F221" stroke-width="0.6" opacity="0.5"/>
-      <line x1="52" y1="40" x2="46" y2="60" stroke="#C6F221" stroke-width="0.5" opacity="0.4"/>
-      <line x1="46" y1="60" x2="50" y2="80" stroke="#C6F221" stroke-width="0.6" opacity="0.5"/>
-      <line x1="50" y1="80" x2="48" y2="100" stroke="#C6F221" stroke-width="0.8" opacity="0.7"/>
-      <line x1="48" y1="20" x2="30" y2="30" stroke="#C6F221" stroke-width="0.3" opacity="0.3"/>
-      <line x1="52" y1="40" x2="70" y2="35" stroke="#C6F221" stroke-width="0.3" opacity="0.3"/>
-      <line x1="46" y1="60" x2="28" y2="55" stroke="#C6F221" stroke-width="0.2" opacity="0.2"/>
-      <line x1="50" y1="80" x2="68" y2="72" stroke="#C6F221" stroke-width="0.2" opacity="0.2"/>
+      <line x1="48" y1="20" x2="52" y2="45" stroke="#C6F221" stroke-width="0.6" opacity="0.5"/>
+      <line x1="52" y1="45" x2="46" y2="70" stroke="#C6F221" stroke-width="0.5" opacity="0.4"/>
+      <line x1="46" y1="70" x2="50" y2="100" stroke="#C6F221" stroke-width="0.7" opacity="0.6"/>
+      <line x1="48" y1="20" x2="28" y2="30" stroke="#C6F221" stroke-width="0.3" opacity="0.25"/>
+      <line x1="52" y1="45" x2="72" y2="38" stroke="#C6F221" stroke-width="0.3" opacity="0.25"/>
     </svg>
     <div class="loader-content">
-      <svg class="loader-feather" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/>
-        <path d="M50 18 L50 108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-      </svg>
+      <svg class="loader-feather" viewBox="0 0 100 120" fill="none"><path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/></svg>
       <div class="loader-title">Wall Brokers</div>
-      <div class="loader-bar-track">
-        <div class="loader-bar-fill"></div>
-      </div>
+      <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
     </div>
   </div>
 
-  <!-- ========== MAIN SITE ========== -->
+  <!-- MAIN SITE -->
   <div id="main-site">
 
     <!-- NAV -->
     <nav class="nav">
       <div class="nav-brand">
-        <svg class="nav-feather" viewBox="0 0 100 120" fill="none"><path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/></svg>
+        <img src="images/logo.png" alt="WB" class="nav-logo" onerror="this.style.display='none'">
+        <svg class="nav-feather-icon" viewBox="0 0 100 120" fill="none"><path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/></svg>
         <span class="nav-name">Wall Brokers</span>
       </div>
       <a href="https://x.com/Wall_Brokers" target="_blank" rel="noopener" class="nav-x">
@@ -55,14 +48,9 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-chars">
-        <img src="images/nft/1.png" alt="Wall Broker #1" class="hero-char" loading="eager">
-        <img src="images/nft/50.png" alt="Wall Broker #50" class="hero-char" loading="eager">
-      </div>
+      <img src="images/logo.png" alt="Wall Brokers" class="hero-logo-img" onerror="this.style.display='none'">
 
-      <div class="hero-logo-wrap">
-        <svg class="hero-feather" viewBox="0 0 100 120" fill="none"><path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/><path d="M50 18 L50 108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/></svg>
-      </div>
+      <svg class="hero-feather" viewBox="0 0 100 120" fill="none"><path d="M50 8 C55 8, 75 28, 78 52 C80 68, 74 88, 62 108 C58 114, 54 118, 50 118 C46 118, 42 114, 38 108 C26 88, 20 68, 22 52 C25 28, 45 8, 50 8Z" fill="#C6F221"/><path d="M50 18 L50 108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/></svg>
 
       <h1 class="hero-title">Wall Brokers</h1>
       <p class="hero-sub">999 Unique Pixel-Art Brokers</p>
@@ -76,57 +64,50 @@
     <!-- INFO BAND -->
     <div class="info-band">
       <div class="info-inner">
-        <div class="info-item">
-          <div class="info-label">Supply</div>
-          <div class="info-val lime">999</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Mint Date</div>
-          <div class="info-val">Soon</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Price</div>
-          <div class="info-val">TBA</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Chain</div>
-          <div class="info-val lime">Robinhood</div>
-        </div>
+        <div class="info-item"><div class="info-label">Supply</div><div class="info-val lime">999</div></div>
+        <div class="info-item"><div class="info-label">Mint Date</div><div class="info-val">Soon</div></div>
+        <div class="info-item"><div class="info-label">Price</div><div class="info-val">TBA</div></div>
+        <div class="info-item"><div class="info-label">Chain</div><div class="info-val lime">Robinhood</div></div>
       </div>
     </div>
 
     <!-- BUTTONS -->
     <div class="actions">
       <button class="btn btn-primary" onclick="openWhitelistModal()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
         Apply for Whitelist
       </button>
       <div style="position:relative;display:inline-block">
         <button class="btn btn-disabled" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           Mint
         </button>
         <span class="btn-badge">SOON</span>
       </div>
+      <button class="btn btn-secondary" onclick="showCollab()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Collab
+      </button>
     </div>
 
     <div class="divider"><div class="divider-line"></div></div>
 
-    <!-- NFT SHOWCASE - Single Clickable -->
+    <!-- NFT SHOWCASE -->
     <section class="showcase">
       <div class="showcase-tag">Collection</div>
       <h2 class="showcase-title">Meet the Brokers</h2>
 
       <div class="nft-viewer" id="nft-viewer" onclick="cycleNFT()">
         <div class="nft-frame">
-          <img id="nft-display" src="images/nft/1.png" alt="Wall Broker">
-          <div class="nft-id-badge" id="nft-id">#1</div>
-          <div class="nft-counter" id="nft-counter">1 / 50</div>
+          <img id="nft-display" src="images/nft/8.png" alt="Wall Broker">
+          <div class="nft-id-badge" id="nft-id">#8</div>
+          <div class="nft-counter" id="nft-counter">1 / 19</div>
+          <div class="nft-tap-hint" id="nft-tap-hint">
+            <div class="nft-tap-hand">👆</div>
+          </div>
         </div>
-        <div class="nft-hint">Tap to see next broker</div>
-        <div class="nft-progress">
-          <div class="nft-progress-fill" id="nft-progress" style="width: 2%"></div>
-        </div>
+        <div class="nft-hint" id="nft-hint-text">Tap to see next broker</div>
+        <div class="nft-progress"><div class="nft-progress-fill" id="nft-progress" style="width:5.2%"></div></div>
       </div>
     </section>
 
@@ -142,18 +123,9 @@
           Mint your own broker and join the wall.
         </p>
         <div class="about-stats">
-          <div class="about-stat">
-            <div class="about-stat-num">999</div>
-            <div class="about-stat-label">Total Supply</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-num">150+</div>
-            <div class="about-stat-label">Traits</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-num">0</div>
-            <div class="about-stat-label">Mint Fee</div>
-          </div>
+          <div class="about-stat"><div class="about-stat-num">999</div><div class="about-stat-label">Supply</div></div>
+          <div class="about-stat"><div class="about-stat-num">150+</div><div class="about-stat-label">Traits</div></div>
+          <div class="about-stat"><div class="about-stat-num">0</div><div class="about-stat-label">Mint Fee</div></div>
         </div>
       </div>
     </section>
@@ -170,32 +142,55 @@
         <div class="roadmap-items">
           <div class="roadmap-item">
             <div class="roadmap-dot"></div>
-            <div class="roadmap-content">
-              <h4>Phase 1 — Community</h4>
-              <p>Build community, open whitelist, grow on X. 999 hand-picked brokers ready to mint.</p>
-            </div>
+            <div class="roadmap-content"><h4>Phase 1 — Community</h4><p>Build community, open whitelist, grow on X. 999 hand-picked brokers ready to mint.</p></div>
           </div>
           <div class="roadmap-item">
             <div class="roadmap-dot"></div>
-            <div class="roadmap-content">
-              <h4>Phase 2 — Mint</h4>
-              <p>Whitelist mint goes live on OpenSea. Fair launch, no bots, no gas wars.</p>
-            </div>
+            <div class="roadmap-content"><h4>Phase 2 — Mint</h4><p>Whitelist mint goes live on OpenSea. Fair launch, no bots, no gas wars.</p></div>
           </div>
           <div class="roadmap-item">
             <div class="roadmap-dot pending"></div>
-            <div class="roadmap-content">
-              <h4>Phase 3 — Utility</h4>
-              <p>Exclusive holder channels, early access to future drops, and real-world perks.</p>
-            </div>
+            <div class="roadmap-content"><h4>Phase 3 — Utility</h4><p>Exclusive holder channels, early access to future drops, and real-world perks.</p></div>
           </div>
           <div class="roadmap-item">
             <div class="roadmap-dot pending"></div>
-            <div class="roadmap-content">
-              <h4>Phase 4 — Expansion</h4>
-              <p>New collections, partnerships, and taking Wall Brokers to the next level.</p>
-            </div>
+            <div class="roadmap-content"><h4>Phase 4 — Expansion</h4><p>New collections, partnerships, and taking Wall Brokers to the next level.</p></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLAB PAGE (hidden by default) -->
+    <section class="collab-page" id="collab-page" style="display:none">
+      <div class="collab-inner">
+        <h3 class="collab-title">Collaborate with Us</h3>
+        <p class="collab-subtitle">We're looking for active, engaged partners to grow the Wall Brokers ecosystem.</p>
+
+        <div class="collab-requirements">
+          <div class="collab-req">
+            <div class="collab-req-icon">✓</div>
+            <div class="collab-req-text">Verified X (Twitter) Account<span>Your account must be verified</span></div>
+          </div>
+          <div class="collab-req">
+            <div class="collab-req-icon">2K+</div>
+            <div class="collab-req-text">2,000+ Followers<span>Active and engaged audience</span></div>
+          </div>
+          <div class="collab-req">
+            <div class="collab-req-icon">🔥</div>
+            <div class="collab-req-text">Active on Twitter<span>Regular posts and engagement in NFT community</span></div>
+          </div>
+          <div class="collab-req">
+            <div class="collab-req-icon">🤝</div>
+            <div class="collab-req-text">NFT Related<span>Focus on NFT / Web3 / Crypto content</span></div>
+          </div>
+        </div>
+
+        <div class="collab-cta">
+          <a href="https://x.com/i/chat/1751200910305583104-2093592874898370560" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Click to Message Us
+          </a>
+          <p style="font-size:0.6rem;color:#555;margin-top:8px;text-align:center">Opens a DM to @Wall_Brokers on X</p>
         </div>
       </div>
     </section>
@@ -222,10 +217,9 @@
         <div class="footer-copy">&copy; 2026 Wall Brokers. All rights reserved.</div>
       </div>
     </footer>
-
   </div>
 
-  <!-- ========== WHITELIST MODAL ========== -->
+  <!-- WHITELIST MODAL -->
   <div id="wl-modal" class="wl-overlay" style="display:none">
     <div class="wl-modal">
       <button class="wl-close" onclick="closeWhitelistModal()">&times;</button>
@@ -233,7 +227,7 @@
 
       <div id="wl-step-0" class="wl-step-content">
         <h3 class="wl-heading">Enter your X username</h3>
-        <p class="wl-desc">We'll use this to verify your social tasks.</p>
+        <p class="wl-desc">We'll verify your social tasks.</p>
         <input type="text" class="wl-input" id="wl-username" placeholder="@username" autocomplete="off">
         <button class="btn btn-primary wl-continue" onclick="wlNext()">Continue</button>
       </div>
@@ -242,11 +236,11 @@
         <h3 class="wl-heading">Like our post</h3>
         <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
         <a href="https://x.com/intent/like?tweet_id=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           Like this post
         </a>
         <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-confirm" style="display:none">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           I've liked it
         </button>
         <button class="wl-link-btn" onclick="wlShowConfirm('like')">I already liked it — Continue</button>
@@ -254,13 +248,13 @@
 
       <div id="wl-step-2" class="wl-step-content" style="display:none">
         <h3 class="wl-heading">Repost our post</h3>
-        <p class="wl-desc">Repost (RT) the post, then come back and confirm.</p>
+        <p class="wl-desc">Repost (RT) the post, then come back.</p>
         <a href="https://x.com/intent/retweet?tweet_id=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
           Repost this post
         </a>
         <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-confirm" style="display:none">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           I've reposted it
         </button>
         <button class="wl-link-btn" onclick="wlShowConfirm('rt')">I already reposted — Continue</button>
@@ -270,19 +264,19 @@
         <h3 class="wl-heading">Comment on our post</h3>
         <p class="wl-desc">Leave a comment, then paste the link below.</p>
         <a href="https://x.com/intent/tweet?in_reply_to=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Comment on this post
         </a>
-        <div class="wl-comment-verify" id="wl-comment-verify">
-          <p class="wl-desc" style="margin-top:12px">Paste your comment link:</p>
+        <div id="wl-comment-verify">
+          <p class="wl-desc" style="margin-top:10px">Paste your comment link:</p>
           <input type="url" class="wl-input" id="wl-comment-link" placeholder="https://x.com/you/status/..." autocomplete="off">
           <button class="btn btn-primary wl-continue" onclick="wlVerifyComment()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Verify
           </button>
         </div>
         <div class="wl-done-badge" id="wl-comment-done" style="display:none">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           Verified
         </div>
       </div>
@@ -296,18 +290,12 @@
 
       <div id="wl-step-5" class="wl-step-content wl-final" style="display:none">
         <div class="wl-success-icon">
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
         </div>
         <h3 class="wl-heading wl-success-title">You are Whitelisted!</h3>
         <div class="wl-summary">
-          <div class="wl-summary-row">
-            <span class="wl-summary-label">X Handle</span>
-            <span class="wl-summary-value" id="wl-summary-user">—</span>
-          </div>
-          <div class="wl-summary-row">
-            <span class="wl-summary-label">Wallet</span>
-            <span class="wl-summary-value" id="wl-summary-wallet">—</span>
-          </div>
+          <div class="wl-summary-row"><span class="wl-summary-label">X Handle</span><span class="wl-summary-value" id="wl-summary-user">—</span></div>
+          <div class="wl-summary-row"><span class="wl-summary-label">Wallet</span><span class="wl-summary-value" id="wl-summary-wallet">—</span></div>
         </div>
         <button class="btn btn-primary wl-continue" onclick="closeWhitelistModal()">Done</button>
       </div>
