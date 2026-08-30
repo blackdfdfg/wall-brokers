@@ -220,7 +220,15 @@
       }
       updateWlSteps();
     }
-    function wlNext() {
+    async function checkDuplicate(type, value) {
+      try {
+        var resp = await fetch(GOOGLE_SHEETS_URL + '?type=' + encodeURIComponent(type) + '&value=' + encodeURIComponent(value), { signal: AbortSignal.timeout(8000) });
+        var data = await resp.json();
+        return data.exists;
+      } catch(e) { return false; }
+    }
+
+    async function wlNext() {
       if (wlCurrentStep === 0) {
         var u = document.getElementById('wl-username').value.trim();
         if (!u) return;
@@ -228,6 +236,11 @@
         u = u.replace('@','').trim();
         if (!u) return;
         document.getElementById('wl-username-error').textContent = '';
+        var errEl = document.getElementById('wl-username-error');
+        errEl.textContent = 'Checking...';
+        var exists = await checkDuplicate('username', u);
+        if (exists) { errEl.textContent = 'You have already applied with this username.'; return; }
+        errEl.textContent = '';
         wlData.username = u;
       }
       wlCurrentStep++;
@@ -299,6 +312,9 @@
 
       if (wlUsedComments.has(statusId)) { errEl.textContent = 'This link has already been used.'; return; }
 
+      var sheetHasComment = await checkDuplicate('comment', statusId);
+      if (sheetHasComment) { errEl.textContent = 'This comment has already been used by another application.'; return; }
+
       loadingEl.style.display = 'flex';
       verifyBtn.style.display = 'none';
       errEl.textContent = '';
@@ -333,12 +349,16 @@
       document.getElementById('wl-comment-next').style.display = 'flex';
     }
 
-    function wlSubmit() {
+    async function wlSubmit() {
       var w = document.getElementById('wl-wallet').value.trim();
       var errEl = document.getElementById('wl-wallet-error');
       errEl.textContent = '';
       if (!w) { errEl.textContent = 'Please enter a wallet address.'; return; }
       if (!/^0x[0-9a-fA-F]{40}$/.test(w)) { errEl.textContent = 'Enter a valid EVM address (0x + 40 hex chars).'; return; }
+      errEl.textContent = 'Checking...';
+      var exists = await checkDuplicate('wallet', w.toLowerCase());
+      if (exists) { errEl.textContent = 'This wallet address has already been whitelisted.'; return; }
+      errEl.textContent = '';
       wlData.wallet = w;
       document.getElementById('wl-summary-user').textContent = '@' + wlData.username;
       document.getElementById('wl-summary-wallet').textContent = w.substring(0,6) + '...' + w.substring(w.length-4);
