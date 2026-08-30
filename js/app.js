@@ -179,28 +179,16 @@ function wlConfirmStep() {
 }
 
 async function wlVerifyComment() {
-  const link = document.getElementById('wl-comment-link').value.trim();
+  const rawLink = document.getElementById('wl-comment-link').value.trim();
   const errEl = document.getElementById('wl-comment-error');
   errEl.textContent = '';
 
-  if (!link) {
+  if (!rawLink) {
     errEl.textContent = 'Please paste your comment link.';
     return;
   }
 
-  const cleanLink = link.split('?')[0].split('#')[0];
-  if (!cleanLink.includes('x.com/') && !cleanLink.includes('twitter.com/')) {
-    errEl.textContent = 'Please paste a valid X/Twitter link.';
-    return;
-  }
-
-  const statusMatch = cleanLink.match(/\/status\/(\d+)/);
-  if (!statusMatch) {
-    errEl.textContent = 'Invalid link format. Paste the full tweet URL.';
-    return;
-  }
-
-  if (wlUsedComments.has(cleanLink)) {
+  if (wlUsedComments.has(rawLink)) {
     errEl.textContent = 'This comment link has already been used.';
     return;
   }
@@ -208,30 +196,41 @@ async function wlVerifyComment() {
   errEl.textContent = 'Verifying...';
 
   try {
-    const proxyBase = GOOGLE_SHEETS_URL.replace('/exec', '');
-    const verifyUrl = proxyBase + '?action=verify&url=' + encodeURIComponent(cleanLink);
+    var cleanLink = rawLink.trim();
+    cleanLink = cleanLink.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/, '//x.com');
+    if (!cleanLink.startsWith('http')) cleanLink = 'https://' + cleanLink;
+    cleanLink = cleanLink.split('?')[0].split('#')[0];
 
-    const resp = await fetch(verifyUrl);
-    const data = await resp.json();
-
-    if (data.error) {
-      errEl.textContent = data.error;
+    var sm = cleanLink.match(/\/status\/(\d+)/);
+    if (!sm) {
+      errEl.textContent = 'Invalid link. Paste the full URL like: x.com/user/status/123456';
       return;
     }
 
-    if (data.author.toLowerCase() !== wlData.username.toLowerCase()) {
-      errEl.textContent = 'This comment is not from @' + wlData.username + '.';
+    var oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(cleanLink) + '&omit_script=true';
+    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedUrl);
+    var resp = await fetch(proxyUrl);
+
+    if (!resp.ok) {
+      errEl.textContent = 'Tweet not found. Check the link.';
+      return;
+    }
+    var data = await resp.json();
+    var authorName = (data.author_url || '').split('/').pop() || '';
+
+    if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+      errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
       return;
     }
 
-    wlUsedComments.add(cleanLink);
+    wlUsedComments.add(rawLink);
     wlCommentVerified = true;
     errEl.textContent = '';
     document.getElementById('wl-comment-verify').style.display = 'none';
     document.getElementById('wl-comment-done').style.display = 'flex';
     document.getElementById('wl-comment-next').style.display = 'flex';
   } catch (e) {
-    errEl.textContent = 'Verification failed. Try again.';
+    errEl.textContent = 'Network error. Check your connection and try again.';
   }
 }
 
