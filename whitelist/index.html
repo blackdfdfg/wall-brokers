@@ -59,8 +59,24 @@
         <button class="btn btn-primary wl-continue" onclick="wlNext()">Continue</button>
       </div>
 
-      <!-- Step 1: Like -->
+      <!-- Step 1: Follow -->
       <div id="wl-step-1" class="wl-step-content">
+        <h3 class="wl-heading">Follow @Wall_Brokers</h3>
+        <p class="wl-desc">Tap below to follow our account, then come back.</p>
+        <a href="https://x.com/intent/follow?screen_name=Wall_Brokers" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-follow-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Follow this account
+        </a>
+        <div class="wl-check" id="wl-follow-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Followed</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-follow-next" style="display:none">Continue</button>
+        <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
+      </div>
+
+      <!-- Step 2: Like -->
+      <div id="wl-step-2" class="wl-step-content">
         <h3 class="wl-heading">Like our post</h3>
         <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
         <a href="https://x.com/intent/like?tweet_id=2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
@@ -75,8 +91,8 @@
         <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
-      <!-- Step 2: Repost -->
-      <div id="wl-step-2" class="wl-step-content">
+      <!-- Step 3: Repost -->
+      <div id="wl-step-3" class="wl-step-content">
         <h3 class="wl-heading">Repost our post</h3>
         <p class="wl-desc">Repost (RT) the post, then come back.</p>
         <a href="https://x.com/intent/retweet?tweet_id=2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
@@ -91,8 +107,8 @@
         <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
-      <!-- Step 3: Comment -->
-      <div id="wl-step-3" class="wl-step-content">
+      <!-- Step 4: Comment -->
+      <div id="wl-step-4" class="wl-step-content">
         <h3 class="wl-heading">Comment on our post</h3>
         <p class="wl-desc">Leave a comment, then come back to verify.</p>
         <a href="https://x.com/Wall_Brokers/status/2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
@@ -120,8 +136,8 @@
         <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
-      <!-- Step 4: Wallet -->
-      <div id="wl-step-4" class="wl-step-content">
+      <!-- Step 5: Wallet -->
+      <div id="wl-step-5" class="wl-step-content">
         <h3 class="wl-heading">Wallet address</h3>
         <p class="wl-desc">Robinhood Network compatible wallet.</p>
         <input type="text" class="wl-input" id="wl-wallet" placeholder="0x..." autocomplete="off">
@@ -130,8 +146,8 @@
         <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
-      <!-- Step 5: Success -->
-      <div id="wl-step-5" class="wl-step-content wl-final">
+      <!-- Step 6: Success -->
+      <div id="wl-step-6" class="wl-step-content wl-final">
         <div class="wl-success-icon">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#4FC3F7" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
         </div>
@@ -146,7 +162,7 @@
   </div>
 
   <script>
-    const WL_TOTAL_STEPS = 6;
+    const WL_TOTAL_STEPS = 7;
     const TWEET_ID = '2094096156116808078';
     const TARGET_USERNAME = 'NeoH0DL';
     let wlCurrentStep = 0;
@@ -180,8 +196,9 @@
         wlData = saved.data;
         wlCommentVerified = saved.commentVerified || false;
         if (wlCommentVerified) { document.getElementById('wl-comment-verify').style.display='none'; document.getElementById('wl-comment-done').style.display='flex'; document.getElementById('wl-comment-next').style.display='flex'; }
-        if (wlCurrentStep === 1) { document.getElementById('wl-like-done').style.display='flex'; document.getElementById('wl-like-next').style.display='flex'; document.getElementById('wl-like-btn').style.display='none'; }
-        if (wlCurrentStep === 2) { document.getElementById('wl-rt-done').style.display='flex'; document.getElementById('wl-rt-next').style.display='flex'; document.getElementById('wl-rt-btn').style.display='none'; }
+        if (wlCurrentStep === 1) { document.getElementById('wl-follow-done').style.display='flex'; document.getElementById('wl-follow-next').style.display='flex'; document.getElementById('wl-follow-btn').style.display='none'; }
+        if (wlCurrentStep === 2) { document.getElementById('wl-like-done').style.display='flex'; document.getElementById('wl-like-next').style.display='flex'; document.getElementById('wl-like-btn').style.display='none'; }
+        if (wlCurrentStep === 3) { document.getElementById('wl-rt-done').style.display='flex'; document.getElementById('wl-rt-next').style.display='flex'; document.getElementById('wl-rt-btn').style.display='none'; }
       } else { wlCurrentStep = 0; wlData = {}; wlCommentVerified = false; }
       document.getElementById('wl-username-error').textContent = '';
       updateWlSteps();
@@ -218,6 +235,10 @@
       showWlStep(wlCurrentStep);
     }
 
+    document.getElementById('wl-follow-btn').addEventListener('click', function() {
+      saveWlState();
+      setTimeout(function() { document.getElementById('wl-follow-done').style.display='flex'; document.getElementById('wl-follow-next').style.display='flex'; document.getElementById('wl-follow-btn').style.display='none'; }, 500);
+    });
     document.getElementById('wl-like-btn').addEventListener('click', function() {
       saveWlState();
       setTimeout(function() { document.getElementById('wl-like-done').style.display='flex'; document.getElementById('wl-like-next').style.display='flex'; document.getElementById('wl-like-btn').style.display='none'; }, 500);
