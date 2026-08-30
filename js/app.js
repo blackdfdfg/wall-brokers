@@ -88,23 +88,67 @@ let wlData = {};
 let wlCommentVerified = false;
 const wlUsedComments = new Set();
 
-// Google Sheets Webhook URL
 const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzIbCVd4afllCNsaNCpb-pOmLARkTjUtmSfIfAEJGKTvHS8_uOqaYJwwpobrzfP3hnD/exec';
 
+function saveWlState() {
+  try {
+    localStorage.setItem('wl_state', JSON.stringify({
+      step: wlCurrentStep,
+      data: wlData,
+      commentVerified: wlCommentVerified
+    }));
+  } catch (e) {}
+}
+
+function loadWlState() {
+  try {
+    var s = localStorage.getItem('wl_state');
+    if (s) return JSON.parse(s);
+  } catch (e) {}
+  return null;
+}
+
+function clearWlState() {
+  localStorage.removeItem('wl_state');
+}
+
 function openWhitelistModal() {
-  wlCurrentStep = 0;
-  wlData = {};
-  wlCommentVerified = false;
+  var saved = loadWlState();
+  if (saved && saved.step > 0 && saved.data && saved.data.username) {
+    wlCurrentStep = saved.step;
+    wlData = saved.data;
+    wlCommentVerified = saved.commentVerified || false;
+    if (wlCommentVerified) {
+      document.getElementById('wl-comment-verify').style.display = 'none';
+      document.getElementById('wl-comment-done').style.display = 'flex';
+      document.getElementById('wl-comment-next').style.display = 'flex';
+    }
+    if (wlCurrentStep === 1) {
+      document.getElementById('wl-like-done').style.display = 'flex';
+      document.getElementById('wl-like-next').style.display = 'flex';
+      document.getElementById('wl-like-btn').style.display = 'none';
+    }
+    if (wlCurrentStep === 2) {
+      document.getElementById('wl-rt-done').style.display = 'flex';
+      document.getElementById('wl-rt-next').style.display = 'flex';
+      document.getElementById('wl-rt-btn').style.display = 'none';
+    }
+  } else {
+    wlCurrentStep = 0;
+    wlData = {};
+    wlCommentVerified = false;
+  }
   document.getElementById('wl-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
   document.getElementById('wl-username-error').textContent = '';
   updateWlSteps();
-  showWlStep(0);
+  showWlStep(wlCurrentStep);
 }
 
 function closeWhitelistModal() {
   document.getElementById('wl-modal').style.display = 'none';
   document.body.style.overflow = '';
+  clearWlState();
 }
 
 function updateWlSteps() {
@@ -133,7 +177,6 @@ function wlNext() {
     u = u.replace('@', '').trim();
     if (!u) return;
 
-    // Check duplicate username
     const applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
     if (applied.includes(u.toLowerCase())) {
       document.getElementById('wl-username-error').textContent = 'You have already applied with this username.';
@@ -144,11 +187,12 @@ function wlNext() {
     wlData.username = u;
   }
   wlCurrentStep++;
+  saveWlState();
   showWlStep(wlCurrentStep);
 }
 
-// Like step: user clicks intent link, comes back → show check + Continue
 document.getElementById('wl-like-btn').addEventListener('click', function() {
+  saveWlState();
   setTimeout(function() {
     document.getElementById('wl-like-done').style.display = 'flex';
     document.getElementById('wl-like-next').style.display = 'flex';
@@ -156,8 +200,8 @@ document.getElementById('wl-like-btn').addEventListener('click', function() {
   }, 500);
 });
 
-// Repost step: same pattern
 document.getElementById('wl-rt-btn').addEventListener('click', function() {
+  saveWlState();
   setTimeout(function() {
     document.getElementById('wl-rt-done').style.display = 'flex';
     document.getElementById('wl-rt-next').style.display = 'flex';
@@ -165,8 +209,8 @@ document.getElementById('wl-rt-btn').addEventListener('click', function() {
   }, 500);
 });
 
-// Comment step: button first → user clicks intent → comes back → show paste input
 document.getElementById('wl-comment-btn').addEventListener('click', function() {
+  saveWlState();
   setTimeout(function() {
     document.getElementById('wl-comment-btn').style.display = 'none';
     document.getElementById('wl-comment-verify').style.display = 'block';
@@ -175,6 +219,7 @@ document.getElementById('wl-comment-btn').addEventListener('click', function() {
 
 function wlConfirmStep() {
   wlCurrentStep++;
+  saveWlState();
   showWlStep(wlCurrentStep);
 }
 
@@ -257,6 +302,7 @@ async function wlVerifyComment() {
 
   wlUsedComments.add(cleanLink);
   wlCommentVerified = true;
+  saveWlState();
   errEl.textContent = '';
   document.getElementById('wl-comment-verify').style.display = 'none';
   document.getElementById('wl-comment-done').style.display = 'flex';
@@ -283,14 +329,13 @@ function wlSubmit() {
   document.getElementById('wl-summary-user').textContent = '@' + wlData.username;
   document.getElementById('wl-summary-wallet').textContent = w.substring(0, 6) + '...' + w.substring(w.length - 4);
 
-  // Save to localStorage
   const applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
   applied.push(wlData.username.toLowerCase());
   localStorage.setItem('wl_applied', JSON.stringify(applied));
 
-  // Send to Google Sheets
   sendToSheets(wlData.username, wlData.wallet);
 
+  clearWlState();
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }
