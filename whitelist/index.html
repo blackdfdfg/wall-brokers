@@ -210,8 +210,6 @@
         if (!u.startsWith('@')) u = '@' + u;
         u = u.replace('@','').trim();
         if (!u) return;
-        var applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
-        if (applied.includes(u.toLowerCase())) { document.getElementById('wl-username-error').textContent = 'You have already applied with this username.'; return; }
         document.getElementById('wl-username-error').textContent = '';
         wlData.username = u;
       }
@@ -323,9 +321,6 @@
       wlData.wallet = w;
       document.getElementById('wl-summary-user').textContent = '@' + wlData.username;
       document.getElementById('wl-summary-wallet').textContent = w.substring(0,6) + '...' + w.substring(w.length-4);
-      var applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
-      applied.push(wlData.username.toLowerCase());
-      localStorage.setItem('wl_applied', JSON.stringify(applied));
       sendToSheets(wlData.username, wlData.wallet);
       clearWlState();
       wlCurrentStep++;
