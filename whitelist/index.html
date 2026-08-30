@@ -327,11 +327,23 @@
       showWlStep(wlCurrentStep);
     }
 
+    function formatBdTime() {
+      var d = new Date();
+      var parts = d.toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12:false, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' }).split(', ');
+      var datePart = parts[0].split('/');
+      var dd = datePart[1], mm = datePart[0], yy = datePart[2];
+      var timeRaw = parts[1];
+      var th = parseInt(timeRaw.split(':')[0]);
+      var ampm = th >= 12 ? 'PM' : 'AM';
+      var h12 = th % 12 || 12;
+      return dd + '/' + mm + '/' + yy + ', ' + String(h12).padStart(2,'0') + ':' + timeRaw.split(':')[1] + ':' + timeRaw.split(':')[2] + ' ' + ampm;
+    }
+
     function sendToSheets(username, wallet) {
       var displayName = username.startsWith('@') ? username : '@' + username;
       fetch(GOOGLE_SHEETS_URL, {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: displayName, wallet: wallet, timestamp: new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true }), commentLink: wlData.commentLink || '' })
+        body: JSON.stringify({ username: displayName, wallet: wallet, timestamp: formatBdTime(), commentLink: wlData.commentLink || '' })
       }).catch(function(){});
     }
   </script>
