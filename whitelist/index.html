@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Whitelist | Wall Brokers</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
+  <style>
+    .wl-page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 16px 40px; }
+    .wl-page-card { width:100%; max-width:380px; background:rgba(20,20,20,0.95); border:1px solid rgba(198,242,33,0.15); border-radius:16px; padding:28px 24px; position:relative; }
+    .wl-page .wl-heading { font-family:'Space Mono',monospace; font-size:0.9rem; font-weight:700; color:var(--lime); margin-bottom:8px; text-align:center; }
+    .wl-page .wl-desc { font-family:'Space Mono',monospace; font-size:0.62rem; color:#aaa; text-align:center; margin-bottom:16px; }
+    .wl-page .wl-input { width:100%; padding:14px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(198,242,33,0.2); border-radius:10px; color:#fff; font-family:'Space Mono',monospace; font-size:0.75rem; margin-bottom:10px; outline:none; box-sizing:border-box; }
+    .wl-page .wl-input:focus { border-color:var(--lime); }
+    .wl-page .wl-continue { width:100%; margin-top:4px; }
+    .wl-page .wl-action-btn { width:100%; justify-content:center; font-size:0.8rem; padding:14px 18px; margin-bottom:8px; }
+    .wl-page .wl-check { display:flex; align-items:center; justify-content:center; gap:6px; padding:10px; margin-top:10px; background:rgba(79,195,247,0.08); border:1px solid rgba(79,195,247,0.2); border-radius:8px; font-family:'Space Mono',monospace; font-size:0.8rem; font-weight:700; color:#4FC3F7; }
+    .wl-page .wl-check-icon { font-size:1rem; font-weight:900; }
+    .wl-page .wl-error { font-size:0.62rem; color:#ef5350; text-align:center; min-height:16px; margin-bottom:6px; }
+    .wl-page .wl-steps { display:flex; gap:6px; justify-content:center; margin-bottom:20px; }
+    .wl-page .wl-step-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.15); transition:all 0.3s; }
+    .wl-page .wl-step-dot.active { background:var(--lime); transform:scale(1.3); }
+    .wl-page .wl-step-dot.done { background:var(--lime); opacity:0.5; }
+    .wl-page .wl-success-icon { text-align:center; margin-bottom:12px; }
+    .wl-page .wl-success-title { color:var(--lime) !important; }
+    .wl-page .wl-summary { margin:16px 0; }
+    .wl-page .wl-summary-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-family:'Space Mono',monospace; font-size:0.7rem; }
+    .wl-page .wl-summary-label { color:#888; }
+    .wl-page .wl-summary-value { color:var(--lime); font-weight:700; }
+    .wl-page .wl-step-content { display:none; }
+    .wl-page .wl-final { text-align:center; }
+    .back-link { display:inline-flex; align-items:center; gap:6px; color:#888; font-family:'Space Mono',monospace; font-size:0.65rem; text-decoration:none; margin-bottom:20px; transition:color 0.2s; }
+    .back-link:hover { color:var(--lime); }
+  </style>
+</head>
+<body style="background:#0a0a0a;">
+
+  <div class="wl-page">
+    <a href="../" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Home
+    </a>
+
+    <div class="wl-page-card">
+      <div class="wl-steps" id="wl-steps"></div>
+
+      <!-- Step 0: Username -->
+      <div id="wl-step-0" class="wl-step-content" style="display:block">
+        <h3 class="wl-heading">Enter your X username</h3>
+        <p class="wl-desc">Type your @ username (with the @).</p>
+        <input type="text" class="wl-input" id="wl-username" placeholder="@yourname" autocomplete="off">
+        <div class="wl-error" id="wl-username-error"></div>
+        <button class="btn btn-primary wl-continue" onclick="wlNext()">Continue</button>
+      </div>
+
+      <!-- Step 1: Like -->
+      <div id="wl-step-1" class="wl-step-content">
+        <h3 class="wl-heading">Like our post</h3>
+        <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
+        <a href="https://x.com/intent/like?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Like this post
+        </a>
+        <div class="wl-check" id="wl-like-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Liked</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-next" style="display:none">Continue</button>
+      </div>
+
+      <!-- Step 2: Repost -->
+      <div id="wl-step-2" class="wl-step-content">
+        <h3 class="wl-heading">Repost our post</h3>
+        <p class="wl-desc">Repost (RT) the post, then come back.</p>
+        <a href="https://x.com/intent/retweet?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          Repost this post
+        </a>
+        <div class="wl-check" id="wl-rt-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Reposted</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-next" style="display:none">Continue</button>
+      </div>
+
+      <!-- Step 3: Comment -->
+      <div id="wl-step-3" class="wl-step-content">
+        <h3 class="wl-heading">Comment on our post</h3>
+        <p class="wl-desc">Leave a comment, then come back to verify.</p>
+        <a href="https://x.com/intent/tweet?in_reply_to=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Comment on this post
+        </a>
+        <div id="wl-comment-verify" style="display:none">
+          <p class="wl-desc" style="margin-top:10px">Paste YOUR reply link (not the original post).</p>
+          <input type="url" class="wl-input" id="wl-comment-link" placeholder="x.com/yourname/status/..." autocomplete="off">
+          <div class="wl-error" id="wl-comment-error"></div>
+          <button class="btn btn-primary wl-continue" onclick="wlVerifyComment()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Verify
+          </button>
+        </div>
+        <div class="wl-check" id="wl-comment-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Verified</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-comment-next" style="display:none">Continue</button>
+      </div>
+
+      <!-- Step 4: Wallet -->
+      <div id="wl-step-4" class="wl-step-content">
+        <h3 class="wl-heading">Wallet address</h3>
+        <p class="wl-desc">Robinhood Network compatible wallet.</p>
+        <input type="text" class="wl-input" id="wl-wallet" placeholder="0x..." autocomplete="off">
+        <div class="wl-error" id="wl-wallet-error"></div>
+        <button class="btn btn-primary wl-continue" onclick="wlSubmit()">Submit</button>
+      </div>
+
+      <!-- Step 5: Success -->
+      <div id="wl-step-5" class="wl-step-content wl-final">
+        <div class="wl-success-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#4FC3F7" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
+        </div>
+        <h3 class="wl-heading wl-success-title">You are Whitelisted!</h3>
+        <div class="wl-summary">
+          <div class="wl-summary-row"><span class="wl-summary-label">X Handle</span><span class="wl-summary-value" id="wl-summary-user">—</span></div>
+          <div class="wl-summary-row"><span class="wl-summary-label">Wallet</span><span class="wl-summary-value" id="wl-summary-wallet">—</span></div>
+        </div>
+        <a href="../" class="btn btn-primary wl-continue" style="text-align:center;text-decoration:none;">Done</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WL_TOTAL_STEPS = 6;
+    const TWEET_ID = '2093950736765960253';
+    const TARGET_USERNAME = 'NeoH0DL';
+    let wlCurrentStep = 0;
+    let wlData = {};
+    let wlCommentVerified = false;
+    const wlUsedComments = new Set();
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzIbCVd4afllCNsaNCpb-pOmLARkTjUtmSfIfAEJGKTvHS8_uOqaYJwwpobrzfP3hnD/exec';
+
+    function saveWlState() {
+      try { localStorage.setItem('wl_state', JSON.stringify({ step: wlCurrentStep, data: wlData, commentVerified: wlCommentVerified })); } catch(e) {}
+    }
+    function loadWlState() {
+      try { var s = localStorage.getItem('wl_state'); if (s) return JSON.parse(s); } catch(e) {}
+      return null;
+    }
+    function clearWlState() { localStorage.removeItem('wl_state'); }
+
+    (function() {
+      var saved = loadWlState();
+      if (saved && saved.step > 0 && saved.data && saved.data.username) {
+        wlCurrentStep = saved.step;
+        wlData = saved.data;
+        wlCommentVerified = saved.commentVerified || false;
+        if (wlCommentVerified) { document.getElementById('wl-comment-verify').style.display='none'; document.getElementById('wl-comment-done').style.display='flex'; document.getElementById('wl-comment-next').style.display='flex'; }
+        if (wlCurrentStep === 1) { document.getElementById('wl-like-done').style.display='flex'; document.getElementById('wl-like-next').style.display='flex'; document.getElementById('wl-like-btn').style.display='none'; }
+        if (wlCurrentStep === 2) { document.getElementById('wl-rt-done').style.display='flex'; document.getElementById('wl-rt-next').style.display='flex'; document.getElementById('wl-rt-btn').style.display='none'; }
+      } else { wlCurrentStep = 0; wlData = {}; wlCommentVerified = false; }
+      document.getElementById('wl-username-error').textContent = '';
+      updateWlSteps();
+      showWlStep(wlCurrentStep);
+    })();
+
+    function updateWlSteps() {
+      var c = document.getElementById('wl-steps'); c.innerHTML = '';
+      for (var i = 0; i < WL_TOTAL_STEPS; i++) {
+        var d = document.createElement('div');
+        d.className = 'wl-step-dot' + (i === wlCurrentStep ? ' active' : '') + (i < wlCurrentStep ? ' done' : '');
+        c.appendChild(d);
+      }
+    }
+    function showWlStep(n) {
+      for (var i = 0; i < WL_TOTAL_STEPS; i++) {
+        var el = document.getElementById('wl-step-' + i);
+        if (el) el.style.display = i === n ? 'block' : 'none';
+      }
+      updateWlSteps();
+    }
+    function wlNext() {
+      if (wlCurrentStep === 0) {
+        var u = document.getElementById('wl-username').value.trim();
+        if (!u) return;
+        if (!u.startsWith('@')) u = '@' + u;
+        u = u.replace('@','').trim();
+        if (!u) return;
+        var applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
+        if (applied.includes(u.toLowerCase())) { document.getElementById('wl-username-error').textContent = 'You have already applied with this username.'; return; }
+        document.getElementById('wl-username-error').textContent = '';
+        wlData.username = u;
+      }
+      wlCurrentStep++;
+      saveWlState();
+      showWlStep(wlCurrentStep);
+    }
+
+    document.getElementById('wl-like-btn').addEventListener('click', function() {
+      saveWlState();
+      setTimeout(function() { document.getElementById('wl-like-done').style.display='flex'; document.getElementById('wl-like-next').style.display='flex'; document.getElementById('wl-like-btn').style.display='none'; }, 500);
+    });
+    document.getElementById('wl-rt-btn').addEventListener('click', function() {
+      saveWlState();
+      setTimeout(function() { document.getElementById('wl-rt-done').style.display='flex'; document.getElementById('wl-rt-next').style.display='flex'; document.getElementById('wl-rt-btn').style.display='none'; }, 500);
+    });
+    document.getElementById('wl-comment-btn').addEventListener('click', function() {
+      saveWlState();
+      setTimeout(function() { document.getElementById('wl-comment-btn').style.display='none'; document.getElementById('wl-comment-verify').style.display='block'; }, 500);
+    });
+
+    function wlConfirmStep() { wlCurrentStep++; saveWlState(); showWlStep(wlCurrentStep); }
+
+    function normalizeTweetUrl(raw) {
+      var s = raw.trim().replace(/[\r\n\t]/g,'').replace(/\s+/g,'');
+      s = s.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/g,'//x.com');
+      if (!s.startsWith('http')) s = 'https://' + s;
+      var m = s.match(/(x\.com\/[^?#\s]+)/);
+      if (m) s = m[1];
+      s = s.split('?')[0].split('#')[0];
+      s = s.replace(/\/+$/,'');
+      return s;
+    }
+
+    async function fetchOembed(tweetUrl) {
+      var oembedDirect = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true&dnt=true';
+      var proxies = [oembedDirect, 'https://corsproxy.io/?' + encodeURIComponent(oembedDirect), 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(oembedDirect), 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedDirect)];
+      for (var i = 0; i < proxies.length; i++) {
+        try { var resp = await fetch(proxies[i], { signal: AbortSignal.timeout(5000) }); if (resp.ok) { var text = await resp.text(); return JSON.parse(text); } } catch(e) { continue; }
+      }
+      return null;
+    }
+
+    async function wlVerifyComment() {
+      var rawLink = document.getElementById('wl-comment-link').value.trim();
+      var errEl = document.getElementById('wl-comment-error');
+      errEl.textContent = '';
+      if (!rawLink) { errEl.textContent = 'Please paste your comment link.'; return; }
+      var cleanLink = normalizeTweetUrl(rawLink);
+      if (!cleanLink.includes('x.com/')) { errEl.textContent = 'Please paste a valid X link.'; return; }
+      if (!cleanLink.match(/\/status\/\d+/)) { errEl.textContent = 'Invalid link format.'; return; }
+      var usernameInUrl = cleanLink.match(/x\.com\/([^/]+)\//);
+      if (usernameInUrl && usernameInUrl[1].toLowerCase() !== wlData.username.toLowerCase()) { errEl.textContent = 'This tweet is not from @' + wlData.username + '.'; return; }
+      if (wlUsedComments.has(cleanLink)) { errEl.textContent = 'This link has already been used.'; return; }
+      errEl.textContent = 'Verifying...';
+      var data = await fetchOembed(cleanLink);
+      if (data) { var authorName = (data.author_url || '').split('/').pop() || ''; if (authorName.toLowerCase() !== wlData.username.toLowerCase()) { errEl.textContent = 'Not from @' + wlData.username + '.'; return; } }
+      wlUsedComments.add(cleanLink);
+      wlCommentVerified = true;
+      wlData.commentLink = cleanLink;
+      saveWlState();
+      errEl.textContent = '';
+      document.getElementById('wl-comment-verify').style.display = 'none';
+      document.getElementById('wl-comment-done').style.display = 'flex';
+      document.getElementById('wl-comment-next').style.display = 'flex';
+    }
+
+    function wlSubmit() {
+      var w = document.getElementById('wl-wallet').value.trim();
+      var errEl = document.getElementById('wl-wallet-error');
+      errEl.textContent = '';
+      if (!w) { errEl.textContent = 'Please enter a wallet address.'; return; }
+      if (!/^0x[0-9a-fA-F]{40}$/.test(w)) { errEl.textContent = 'Enter a valid EVM address (0x + 40 hex chars).'; return; }
+      wlData.wallet = w;
+      document.getElementById('wl-summary-user').textContent = '@' + wlData.username;
+      document.getElementById('wl-summary-wallet').textContent = w.substring(0,6) + '...' + w.substring(w.length-4);
+      var applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
+      applied.push(wlData.username.toLowerCase());
+      localStorage.setItem('wl_applied', JSON.stringify(applied));
+      sendToSheets(wlData.username, wlData.wallet);
+      clearWlState();
+      wlCurrentStep++;
+      showWlStep(wlCurrentStep);
+    }
+
+    function sendToSheets(username, wallet) {
+      var displayName = username.startsWith('@') ? username : '@' + username;
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: displayName, wallet: wallet, timestamp: new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true }), commentLink: wlData.commentLink || '' })
+      }).catch(function(){});
+    }
+  </script>
+</body>
+</html>

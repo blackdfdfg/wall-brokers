@@ -75,10 +75,10 @@
 
     <!-- BUTTONS -->
     <div class="actions">
-      <button class="btn btn-primary" onclick="openWhitelistModal()">
+      <a href="whitelist/" class="btn btn-primary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
         Apply for Whitelist
-      </button>
+      </a>
       <div style="position:relative;display:inline-block">
         <button class="btn btn-disabled" disabled>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -86,10 +86,10 @@
         </button>
         <span class="btn-badge">SOON</span>
       </div>
-      <button class="btn btn-primary" onclick="showCollab()">
+      <a href="collab/" class="btn btn-primary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Collab
-      </button>
+      </a>
     </div>
 
     <div class="divider"><div class="divider-line"></div></div>
@@ -171,39 +171,6 @@
       </div>
     </section>
 
-    <!-- COLLAB -->
-    <section class="collab-page" id="collab-page" style="display:none">
-      <div class="collab-inner">
-        <h3 class="collab-title">Collaborate with Us</h3>
-        <p class="collab-subtitle">We're looking for active partners to grow the Wall Brokers ecosystem.</p>
-        <div class="collab-requirements">
-          <div class="collab-req">
-            <div class="collab-req-icon">✓</div>
-            <div class="collab-req-text">Verified X Account<span>Account must be verified</span></div>
-          </div>
-          <div class="collab-req">
-            <div class="collab-req-icon">2K+</div>
-            <div class="collab-req-text">2,000+ Followers<span>Active and engaged audience</span></div>
-          </div>
-          <div class="collab-req">
-            <div class="collab-req-icon">🔥</div>
-            <div class="collab-req-text">Active on Twitter<span>Regular posts and engagement</span></div>
-          </div>
-          <div class="collab-req">
-            <div class="collab-req-icon">🤝</div>
-            <div class="collab-req-text">NFT Related<span>NFT / Web3 / Crypto focus</span></div>
-          </div>
-        </div>
-        <div class="collab-cta">
-          <a href="https://x.com/Wall_Brokers" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            DM us on X
-          </a>
-          <p style="font-size:0.52rem;color:#444;margin-top:6px">Profile এ গিয়ে Message এ বলুন</p>
-        </div>
-      </div>
-    </section>
-
     <div class="divider"><div class="divider-line"></div></div>
 
     <!-- FOOTER -->
@@ -230,99 +197,6 @@
         <div class="footer-copy">&copy; 2026 Wall Brokers.</div>
       </div>
     </footer>
-  </div>
-
-  <!-- WHITELIST MODAL -->
-  <div id="wl-modal" class="wl-overlay" style="display:none">
-    <div class="wl-modal">
-      <button class="wl-close" onclick="closeWhitelistModal()">&times;</button>
-      <div class="wl-steps" id="wl-steps"></div>
-
-      <!-- Step 0: Username -->
-      <div id="wl-step-0" class="wl-step-content">
-        <h3 class="wl-heading">Enter your X username</h3>
-        <p class="wl-desc">Type your @ username (with the @).</p>
-        <input type="text" class="wl-input" id="wl-username" placeholder="@yourname" autocomplete="off">
-        <div class="wl-error" id="wl-username-error"></div>
-        <button class="btn btn-primary wl-continue" onclick="wlNext()">Continue</button>
-      </div>
-
-      <!-- Step 1: Like -->
-      <div id="wl-step-1" class="wl-step-content" style="display:none">
-        <h3 class="wl-heading">Like our post</h3>
-        <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
-        <a href="https://x.com/intent/like?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Like this post
-        </a>
-        <div class="wl-check" id="wl-like-done" style="display:none">
-          <div class="wl-check-icon">✓</div>
-          <span>Liked</span>
-        </div>
-        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-next" style="display:none">Continue</button>
-      </div>
-
-      <!-- Step 2: Repost -->
-      <div id="wl-step-2" class="wl-step-content" style="display:none">
-        <h3 class="wl-heading">Repost our post</h3>
-        <p class="wl-desc">Repost (RT) the post, then come back.</p>
-        <a href="https://x.com/intent/retweet?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-          Repost this post
-        </a>
-        <div class="wl-check" id="wl-rt-done" style="display:none">
-          <div class="wl-check-icon">✓</div>
-          <span>Reposted</span>
-        </div>
-        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-next" style="display:none">Continue</button>
-      </div>
-
-      <!-- Step 3: Comment -->
-      <div id="wl-step-3" class="wl-step-content" style="display:none">
-        <h3 class="wl-heading">Comment on our post</h3>
-        <p class="wl-desc">Leave a comment, then come back to verify.</p>
-        <a href="https://x.com/intent/tweet?in_reply_to=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Comment on this post
-        </a>
-        <div id="wl-comment-verify" style="display:none">
-          <p class="wl-desc" style="margin-top:10px; font-size:0.6rem; opacity:0.7;">Paste YOUR reply link (not the original post). Works on phone &amp; PC.</p>
-          <input type="url" class="wl-input" id="wl-comment-link" placeholder="x.com/yourname/status/..." autocomplete="off">
-          <div class="wl-error" id="wl-comment-error"></div>
-          <button class="btn btn-primary wl-continue" onclick="wlVerifyComment()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Verify
-          </button>
-        </div>
-        <div class="wl-check" id="wl-comment-done" style="display:none">
-          <div class="wl-check-icon">✓</div>
-          <span>Verified</span>
-        </div>
-        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-comment-next" style="display:none">Continue</button>
-      </div>
-
-      <!-- Step 4: Wallet -->
-      <div id="wl-step-4" class="wl-step-content" style="display:none">
-        <h3 class="wl-heading">Wallet address</h3>
-        <p class="wl-desc">Robinhood Network compatible wallet.</p>
-        <input type="text" class="wl-input" id="wl-wallet" placeholder="0x..." autocomplete="off">
-        <div class="wl-error" id="wl-wallet-error"></div>
-        <button class="btn btn-primary wl-continue" onclick="wlSubmit()">Submit</button>
-      </div>
-
-      <!-- Step 5: Success -->
-      <div id="wl-step-5" class="wl-step-content wl-final" style="display:none">
-        <div class="wl-success-icon">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#4FC3F7" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
-        </div>
-        <h3 class="wl-heading wl-success-title">You are Whitelisted!</h3>
-        <div class="wl-summary">
-          <div class="wl-summary-row"><span class="wl-summary-label">X Handle</span><span class="wl-summary-value" id="wl-summary-user">—</span></div>
-          <div class="wl-summary-row"><span class="wl-summary-label">Wallet</span><span class="wl-summary-value" id="wl-summary-wallet">—</span></div>
-        </div>
-        <button class="btn btn-primary wl-continue" onclick="closeWhitelistModal()">Done</button>
-      </div>
-    </div>
   </div>
 
   <script src="js/app.js"></script>
