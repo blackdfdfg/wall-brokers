@@ -236,15 +236,15 @@
         var u = document.getElementById('wl-username').value.trim();
         if (!u) return;
         if (!u.startsWith('@')) u = '@' + u;
-        u = u.replace('@','').trim();
-        if (!u) return;
+        u = u.trim();
+        if (!u || u === '@') return;
         document.getElementById('wl-username-error').textContent = '';
         var errEl = document.getElementById('wl-username-error');
         errEl.textContent = 'Checking...';
         var exists = await checkDuplicate('username', u);
         if (exists) { errEl.textContent = 'You have already applied with this username.'; return; }
         errEl.textContent = '';
-        wlData.username = u;
+        wlData.username = u.replace('@','').trim();
       }
       wlCurrentStep++;
       saveWlState();
