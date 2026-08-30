@@ -81,14 +81,23 @@ function showCollab() {
 
 // ========== WHITELIST ==========
 const WL_TOTAL_STEPS = 6;
+const TWEET_ID = '2093950736765960253';
+const TARGET_USERNAME = 'NeoH0DL';
 let wlCurrentStep = 0;
 let wlData = {};
+let wlCommentVerified = false;
+const wlUsedComments = new Set();
+
+// Google Sheets Webhook URL
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx_dev_placeholder/exec';
 
 function openWhitelistModal() {
   wlCurrentStep = 0;
   wlData = {};
+  wlCommentVerified = false;
   document.getElementById('wl-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  document.getElementById('wl-username-error').textContent = '';
   updateWlSteps();
   showWlStep(0);
 }
@@ -118,39 +127,159 @@ function showWlStep(n) {
 
 function wlNext() {
   if (wlCurrentStep === 0) {
-    const u = document.getElementById('wl-username').value.trim();
+    let u = document.getElementById('wl-username').value.trim();
     if (!u) return;
+    if (!u.startsWith('@')) u = '@' + u;
+    u = u.replace('@', '').trim();
+    if (!u) return;
+
+    // Check duplicate username
+    const applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
+    if (applied.includes(u.toLowerCase())) {
+      document.getElementById('wl-username-error').textContent = 'You have already applied with this username.';
+      return;
+    }
+
+    document.getElementById('wl-username-error').textContent = '';
     wlData.username = u;
   }
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }
 
-function wlShowConfirm(type) {
-  if (type === 'like') document.getElementById('wl-like-confirm').style.display = 'inline-flex';
-  else if (type === 'rt') document.getElementById('wl-rt-confirm').style.display = 'inline-flex';
-}
+// Like step: user clicks intent link, comes back → show check + Continue
+document.getElementById('wl-like-btn').addEventListener('click', function() {
+  setTimeout(function() {
+    document.getElementById('wl-like-done').style.display = 'flex';
+    document.getElementById('wl-like-next').style.display = 'flex';
+    document.getElementById('wl-like-btn').style.display = 'none';
+  }, 500);
+});
+
+// Repost step: same pattern
+document.getElementById('wl-rt-btn').addEventListener('click', function() {
+  setTimeout(function() {
+    document.getElementById('wl-rt-done').style.display = 'flex';
+    document.getElementById('wl-rt-next').style.display = 'flex';
+    document.getElementById('wl-rt-btn').style.display = 'none';
+  }, 500);
+});
+
+// Comment step: button first → user clicks intent → comes back → show paste input
+document.getElementById('wl-comment-btn').addEventListener('click', function() {
+  setTimeout(function() {
+    document.getElementById('wl-comment-btn').style.display = 'none';
+    document.getElementById('wl-comment-verify').style.display = 'block';
+  }, 500);
+});
 
 function wlConfirmStep() {
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
 }
 
-function wlVerifyComment() {
-  if (!document.getElementById('wl-comment-link').value.trim()) return;
-  document.getElementById('wl-comment-verify').style.display = 'none';
-  document.getElementById('wl-comment-done').style.display = 'flex';
-  setTimeout(() => { wlCurrentStep++; showWlStep(wlCurrentStep); }, 800);
+async function wlVerifyComment() {
+  const link = document.getElementById('wl-comment-link').value.trim();
+  const errEl = document.getElementById('wl-comment-error');
+  errEl.textContent = '';
+
+  if (!link) {
+    errEl.textContent = 'Please paste your comment link.';
+    return;
+  }
+
+  if (!link.includes('x.com/') && !link.includes('twitter.com/')) {
+    errEl.textContent = 'Please paste a valid X/Twitter link.';
+    return;
+  }
+
+  if (wlUsedComments.has(link)) {
+    errEl.textContent = 'This comment link has already been used.';
+    return;
+  }
+
+  try {
+    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(link);
+    const resp = await fetch(oembedUrl);
+    if (!resp.ok) {
+      errEl.textContent = 'Could not verify this link. Check the URL and try again.';
+      return;
+    }
+    const data = await resp.json();
+
+    // Check 1: author matches entered username
+    const authorUrl = data.author_url || '';
+    const authorName = authorUrl.split('/').pop() || '';
+    if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+      errEl.textContent = 'This comment is not from @' + wlData.username + '.';
+      return;
+    }
+
+    // Check 2: is it a reply to @NeoH0DL?
+    const html = (data.html || '').toLowerCase();
+    const isReply = html.includes('replying to @' + TARGET_USERNAME.toLowerCase());
+    if (!isReply) {
+      errEl.textContent = 'This doesn\'t look like a valid reply from your account.';
+      return;
+    }
+
+    // Passed both checks
+    wlUsedComments.add(link);
+    wlCommentVerified = true;
+    document.getElementById('wl-comment-verify').style.display = 'none';
+    document.getElementById('wl-comment-done').style.display = 'flex';
+    document.getElementById('wl-comment-next').style.display = 'flex';
+  } catch (e) {
+    errEl.textContent = 'Verification failed. Please try again.';
+  }
 }
 
 function wlSubmit() {
   const w = document.getElementById('wl-wallet').value.trim();
-  if (!w) return;
+  const errEl = document.getElementById('wl-wallet-error');
+  errEl.textContent = '';
+
+  if (!w) {
+    errEl.textContent = 'Please enter a wallet address.';
+    return;
+  }
+
+  // EVM format validation: 0x + 40 hex chars
+  if (!/^0x[0-9a-fA-F]{40}$/.test(w)) {
+    errEl.textContent = 'Please enter a valid EVM wallet address (0x...)';
+    return;
+  }
+
   wlData.wallet = w;
-  document.getElementById('wl-summary-user').textContent = '@' + wlData.username.replace('@', '');
+  document.getElementById('wl-summary-user').textContent = '@' + wlData.username;
   document.getElementById('wl-summary-wallet').textContent = w.substring(0, 6) + '...' + w.substring(w.length - 4);
+
+  // Save to localStorage
+  const applied = JSON.parse(localStorage.getItem('wl_applied') || '[]');
+  applied.push(wlData.username.toLowerCase());
+  localStorage.setItem('wl_applied', JSON.stringify(applied));
+
+  // Send to Google Sheets
+  sendToSheets(wlData.username, wlData.wallet);
+
   wlCurrentStep++;
   showWlStep(wlCurrentStep);
+}
+
+function sendToSheets(username, wallet) {
+  const payload = {
+    username: username,
+    wallet: wallet,
+    timestamp: new Date().toISOString(),
+    url: window.location.href
+  };
+
+  fetch(GOOGLE_SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
 }
 
 document.addEventListener('click', (e) => {

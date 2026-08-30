@@ -238,72 +238,82 @@
       <button class="wl-close" onclick="closeWhitelistModal()">&times;</button>
       <div class="wl-steps" id="wl-steps"></div>
 
+      <!-- Step 0: Username -->
       <div id="wl-step-0" class="wl-step-content">
         <h3 class="wl-heading">Enter your X username</h3>
         <p class="wl-desc">We'll verify your social tasks.</p>
-        <input type="text" class="wl-input" id="wl-username" placeholder="@username" autocomplete="off">
+        <input type="text" class="wl-input" id="wl-username" placeholder="@yourname" autocomplete="off">
+        <div class="wl-error" id="wl-username-error"></div>
         <button class="btn btn-primary wl-continue" onclick="wlNext()">Continue</button>
       </div>
 
+      <!-- Step 1: Like -->
       <div id="wl-step-1" class="wl-step-content" style="display:none">
         <h3 class="wl-heading">Like our post</h3>
         <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
-        <a href="https://x.com/intent/like?tweet_id=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
+        <a href="https://x.com/intent/like?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           Like this post
         </a>
-        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-confirm" style="display:none">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          I've liked it
-        </button>
-        <button class="wl-link-btn" onclick="wlShowConfirm('like')">I already liked it — Continue</button>
+        <div class="wl-check" id="wl-like-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Liked</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-next" style="display:none">Continue</button>
       </div>
 
+      <!-- Step 2: Repost -->
       <div id="wl-step-2" class="wl-step-content" style="display:none">
         <h3 class="wl-heading">Repost our post</h3>
         <p class="wl-desc">Repost (RT) the post, then come back.</p>
-        <a href="https://x.com/intent/retweet?tweet_id=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
+        <a href="https://x.com/intent/retweet?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
           Repost this post
         </a>
-        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-confirm" style="display:none">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          I've reposted it
-        </button>
-        <button class="wl-link-btn" onclick="wlShowConfirm('rt')">I already reposted — Continue</button>
+        <div class="wl-check" id="wl-rt-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Reposted</span>
+        </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-next" style="display:none">Continue</button>
       </div>
 
+      <!-- Step 3: Comment -->
       <div id="wl-step-3" class="wl-step-content" style="display:none">
         <h3 class="wl-heading">Comment on our post</h3>
-        <p class="wl-desc">Leave a comment, then paste the link below.</p>
-        <a href="https://x.com/intent/tweet?in_reply_to=PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn">
+        <p class="wl-desc">Leave a comment, then come back to verify.</p>
+        <a href="https://x.com/intent/tweet?in_reply_to=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Comment on this post
         </a>
-        <div id="wl-comment-verify">
-          <p class="wl-desc" style="margin-top:8px">Paste your comment link:</p>
+        <div id="wl-comment-verify" style="display:none">
+          <p class="wl-desc" style="margin-top:10px">Paste your comment link below:</p>
           <input type="url" class="wl-input" id="wl-comment-link" placeholder="https://x.com/you/status/..." autocomplete="off">
+          <div class="wl-error" id="wl-comment-error"></div>
           <button class="btn btn-primary wl-continue" onclick="wlVerifyComment()">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Verify
           </button>
         </div>
-        <div class="wl-done-badge" id="wl-comment-done" style="display:none">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Verified
+        <div class="wl-check" id="wl-comment-done" style="display:none">
+          <div class="wl-check-icon">✓</div>
+          <span>Verified</span>
         </div>
+        <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-comment-next" style="display:none">Continue</button>
       </div>
 
+      <!-- Step 4: Wallet -->
       <div id="wl-step-4" class="wl-step-content" style="display:none">
         <h3 class="wl-heading">Wallet address</h3>
         <p class="wl-desc">Robinhood Network compatible wallet.</p>
         <input type="text" class="wl-input" id="wl-wallet" placeholder="0x..." autocomplete="off">
+        <div class="wl-error" id="wl-wallet-error"></div>
         <button class="btn btn-primary wl-continue" onclick="wlSubmit()">Submit</button>
       </div>
 
+      <!-- Step 5: Success -->
       <div id="wl-step-5" class="wl-step-content wl-final" style="display:none">
         <div class="wl-success-icon">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#C6F221" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#4FC3F7" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10.5 14 8 11.5"/></svg>
         </div>
         <h3 class="wl-heading wl-success-title">You are Whitelisted!</h3>
         <div class="wl-summary">
