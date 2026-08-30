@@ -302,6 +302,7 @@ async function wlVerifyComment() {
 
   wlUsedComments.add(cleanLink);
   wlCommentVerified = true;
+  wlData.commentLink = cleanLink;
   saveWlState();
   errEl.textContent = '';
   document.getElementById('wl-comment-verify').style.display = 'none';
@@ -346,7 +347,7 @@ function sendToSheets(username, wallet) {
     username: displayName,
     wallet: wallet,
     timestamp: new Date().toISOString(),
-    url: window.location.href
+    commentLink: wlData.commentLink || ''
   };
 
   fetch(GOOGLE_SHEETS_URL, {
