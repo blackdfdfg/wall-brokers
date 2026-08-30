@@ -32,6 +32,8 @@
     .wl-page .wl-final { text-align:center; }
     .back-link { display:inline-flex; align-items:center; gap:6px; color:#888; font-family:'Space Mono',monospace; font-size:0.65rem; text-decoration:none; margin-bottom:20px; transition:color 0.2s; }
     .back-link:hover { color:var(--lime); }
+    .wl-back-btn { display:block; width:100%; padding:10px; margin-top:10px; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#888; font-family:'Space Mono',monospace; font-size:0.65rem; cursor:pointer; text-align:center; transition:all 0.2s; }
+    .wl-back-btn:hover { border-color:rgba(198,242,33,0.3); color:var(--lime); }
   </style>
 </head>
 <body style="background:#0a0a0a;">
@@ -67,6 +69,7 @@
           <span>Liked</span>
         </div>
         <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-like-next" style="display:none">Continue</button>
+        <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
       <!-- Step 2: Repost -->
@@ -82,6 +85,7 @@
           <span>Reposted</span>
         </div>
         <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-rt-next" style="display:none">Continue</button>
+        <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
       <!-- Step 3: Comment -->
@@ -106,6 +110,7 @@
           <span>Verified</span>
         </div>
         <button class="btn btn-primary wl-continue" onclick="wlConfirmStep()" id="wl-comment-next" style="display:none">Continue</button>
+        <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
       <!-- Step 4: Wallet -->
@@ -115,6 +120,7 @@
         <input type="text" class="wl-input" id="wl-wallet" placeholder="0x..." autocomplete="off">
         <div class="wl-error" id="wl-wallet-error"></div>
         <button class="btn btn-primary wl-continue" onclick="wlSubmit()">Submit</button>
+        <button class="wl-back-btn" onclick="wlGoBack()">← Back</button>
       </div>
 
       <!-- Step 5: Success -->
@@ -150,9 +156,18 @@
       return null;
     }
     function clearWlState() { localStorage.removeItem('wl_state'); }
+    function wlGoBack() {
+      if (wlCurrentStep > 0) {
+        wlCurrentStep--;
+        saveWlState();
+        showWlStep(wlCurrentStep);
+      }
+    }
 
     (function() {
+      var fromXIntent = document.referrer && (document.referrer.includes('x.com') || document.referrer.includes('twitter.com'));
       var saved = loadWlState();
+      if (!fromXIntent) { clearWlState(); saved = null; }
       if (saved && saved.step > 0 && saved.data && saved.data.username) {
         wlCurrentStep = saved.step;
         wlData = saved.data;
