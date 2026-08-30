@@ -178,9 +178,37 @@ function wlConfirmStep() {
   showWlStep(wlCurrentStep);
 }
 
+function normalizeTweetUrl(raw) {
+  var s = raw.trim();
+  s = s.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/g, '//x.com');
+  if (!s.startsWith('http')) s = 'https://' + s;
+  s = s.split('?')[0].split('#')[0];
+  s = s.replace(/\/$/, '');
+  return s;
+}
+
+async function fetchOembed(tweetUrl) {
+  var oembedDirect = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true&dnt=true';
+  var proxies = [
+    'https://corsproxy.io/?' + encodeURIComponent(oembedDirect),
+    'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(oembedDirect),
+    oembedDirect
+  ];
+  for (var i = 0; i < proxies.length; i++) {
+    try {
+      var resp = await fetch(proxies[i]);
+      if (resp.ok) {
+        var text = await resp.text();
+        return JSON.parse(text);
+      }
+    } catch (e) { continue; }
+  }
+  return null;
+}
+
 async function wlVerifyComment() {
-  const rawLink = document.getElementById('wl-comment-link').value.trim();
-  const errEl = document.getElementById('wl-comment-error');
+  var rawLink = document.getElementById('wl-comment-link').value.trim();
+  var errEl = document.getElementById('wl-comment-error');
   errEl.textContent = '';
 
   if (!rawLink) {
@@ -188,50 +216,46 @@ async function wlVerifyComment() {
     return;
   }
 
-  if (wlUsedComments.has(rawLink)) {
+  var cleanLink = normalizeTweetUrl(rawLink);
+
+  if (!cleanLink.includes('x.com/') && !cleanLink.includes('twitter.com/')) {
+    errEl.textContent = 'Please paste a valid X/Twitter link.';
+    return;
+  }
+
+  var statusMatch = cleanLink.match(/\/status\/(\d+)/);
+  if (!statusMatch) {
+    errEl.textContent = 'Invalid link. Paste the full URL like: x.com/user/status/123456';
+    return;
+  }
+
+  if (wlUsedComments.has(cleanLink)) {
     errEl.textContent = 'This comment link has already been used.';
     return;
   }
 
   errEl.textContent = 'Verifying...';
 
-  try {
-    var cleanLink = rawLink.trim();
-    cleanLink = cleanLink.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/, '//x.com');
-    if (!cleanLink.startsWith('http')) cleanLink = 'https://' + cleanLink;
-    cleanLink = cleanLink.split('?')[0].split('#')[0];
-
-    var sm = cleanLink.match(/\/status\/(\d+)/);
-    if (!sm) {
-      errEl.textContent = 'Invalid link. Paste the full URL like: x.com/user/status/123456';
-      return;
-    }
-
-    var oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(cleanLink) + '&omit_script=true';
-    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedUrl);
-    var resp = await fetch(proxyUrl);
-
-    if (!resp.ok) {
-      errEl.textContent = 'Tweet not found. Check the link.';
-      return;
-    }
-    var data = await resp.json();
-    var authorName = (data.author_url || '').split('/').pop() || '';
-
-    if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
-      errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
-      return;
-    }
-
-    wlUsedComments.add(rawLink);
-    wlCommentVerified = true;
-    errEl.textContent = '';
-    document.getElementById('wl-comment-verify').style.display = 'none';
-    document.getElementById('wl-comment-done').style.display = 'flex';
-    document.getElementById('wl-comment-next').style.display = 'flex';
-  } catch (e) {
-    errEl.textContent = 'Network error. Check your connection and try again.';
+  var data = await fetchOembed(cleanLink);
+  if (!data) {
+    errEl.textContent = 'Could not verify. Check the link and try again.';
+    return;
   }
+
+  var authorUrl = data.author_url || '';
+  var authorName = authorUrl.split('/').pop() || '';
+
+  if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+    errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
+    return;
+  }
+
+  wlUsedComments.add(cleanLink);
+  wlCommentVerified = true;
+  errEl.textContent = '';
+  document.getElementById('wl-comment-verify').style.display = 'none';
+  document.getElementById('wl-comment-done').style.display = 'flex';
+  document.getElementById('wl-comment-next').style.display = 'flex';
 }
 
 function wlSubmit() {
