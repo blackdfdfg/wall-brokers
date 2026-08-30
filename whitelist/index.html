@@ -169,7 +169,7 @@
     let wlData = {};
     let wlCommentVerified = false;
     const wlUsedComments = new Set();
-    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzIbCVd4afllCNsaNCpb-pOmLARkTjUtmSfIfAEJGKTvHS8_uOqaYJwwpobrzfP3hnD/exec';
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz9saK-AOUeyqQbW5EMBAn8sH7DlOU23JeBbYUVk6kz1nlSw2IqsuH4c84haycEpbYp/exec';
 
     function saveWlState() {
       try { localStorage.setItem('wl_state', JSON.stringify({ step: wlCurrentStep, data: wlData, commentVerified: wlCommentVerified })); } catch(e) {}
