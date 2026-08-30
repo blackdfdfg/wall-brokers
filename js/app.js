@@ -208,19 +208,18 @@ async function wlVerifyComment() {
   errEl.textContent = 'Verifying...';
 
   try {
-    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(cleanLink) + '&omit_script=true';
-    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedUrl);
+    const proxyBase = GOOGLE_SHEETS_URL.replace('/exec', '');
+    const verifyUrl = proxyBase + '?action=verify&url=' + encodeURIComponent(cleanLink);
 
-    const resp = await fetch(proxyUrl);
-    if (!resp.ok) {
-      errEl.textContent = 'Could not verify. Check the link and try again.';
-      return;
-    }
+    const resp = await fetch(verifyUrl);
     const data = await resp.json();
 
-    const authorUrl = data.author_url || '';
-    const authorName = authorUrl.split('/').pop() || '';
-    if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+    if (data.error) {
+      errEl.textContent = data.error;
+      return;
+    }
+
+    if (data.author.toLowerCase() !== wlData.username.toLowerCase()) {
       errEl.textContent = 'This comment is not from @' + wlData.username + '.';
       return;
     }
