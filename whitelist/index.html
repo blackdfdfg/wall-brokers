@@ -222,10 +222,10 @@
     }
     async function checkDuplicate(type, value) {
       try {
-        var resp = await fetch(GOOGLE_SHEETS_URL + '?type=' + encodeURIComponent(type) + '&value=' + encodeURIComponent(value), { signal: AbortSignal.timeout(8000) });
+        var resp = await fetch(GOOGLE_SHEETS_URL + '?type=' + encodeURIComponent(type) + '&value=' + encodeURIComponent(value), { mode: 'cors', signal: AbortSignal.timeout(10000) });
         var data = await resp.json();
         return data.exists;
-      } catch(e) { return false; }
+      } catch(e) { return true; }
     }
 
     async function wlNext() {
