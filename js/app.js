@@ -179,11 +179,13 @@ function wlConfirmStep() {
 }
 
 function normalizeTweetUrl(raw) {
-  var s = raw.trim();
+  var s = raw.trim().replace(/[\r\n\t]/g, '').replace(/\s+/g, '');
   s = s.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/g, '//x.com');
   if (!s.startsWith('http')) s = 'https://' + s;
+  var m = s.match(/(x\.com\/[^?#\s]+)/);
+  if (m) s = m[1];
   s = s.split('?')[0].split('#')[0];
-  s = s.replace(/\/$/, '');
+  s = s.replace(/\/+$/, '');
   return s;
 }
 
