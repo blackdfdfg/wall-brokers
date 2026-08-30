@@ -190,13 +190,14 @@ function normalizeTweetUrl(raw) {
 async function fetchOembed(tweetUrl) {
   var oembedDirect = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true&dnt=true';
   var proxies = [
+    oembedDirect,
     'https://corsproxy.io/?' + encodeURIComponent(oembedDirect),
     'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(oembedDirect),
-    oembedDirect
+    'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedDirect)
   ];
   for (var i = 0; i < proxies.length; i++) {
     try {
-      var resp = await fetch(proxies[i]);
+      var resp = await fetch(proxies[i], { signal: AbortSignal.timeout(5000) });
       if (resp.ok) {
         var text = await resp.text();
         return JSON.parse(text);
@@ -218,14 +219,20 @@ async function wlVerifyComment() {
 
   var cleanLink = normalizeTweetUrl(rawLink);
 
-  if (!cleanLink.includes('x.com/') && !cleanLink.includes('twitter.com/')) {
-    errEl.textContent = 'Please paste a valid X/Twitter link.';
+  if (!cleanLink.includes('x.com/')) {
+    errEl.textContent = 'Please paste a valid X link (x.com/...)';
     return;
   }
 
   var statusMatch = cleanLink.match(/\/status\/(\d+)/);
   if (!statusMatch) {
-    errEl.textContent = 'Invalid link. Paste the full URL like: x.com/user/status/123456';
+    errEl.textContent = 'Invalid link. Full URL like: x.com/user/status/123456';
+    return;
+  }
+
+  var usernameInUrl = cleanLink.match(/x\.com\/([^/]+)\//);
+  if (usernameInUrl && usernameInUrl[1].toLowerCase() !== wlData.username.toLowerCase()) {
+    errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
     return;
   }
 
@@ -237,17 +244,13 @@ async function wlVerifyComment() {
   errEl.textContent = 'Verifying...';
 
   var data = await fetchOembed(cleanLink);
-  if (!data) {
-    errEl.textContent = 'Could not verify. Check the link and try again.';
-    return;
-  }
-
-  var authorUrl = data.author_url || '';
-  var authorName = authorUrl.split('/').pop() || '';
-
-  if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
-    errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
-    return;
+  if (data) {
+    var authorUrl = data.author_url || '';
+    var authorName = authorUrl.split('/').pop() || '';
+    if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+      errEl.textContent = 'This tweet is not from @' + wlData.username + '. Paste YOUR reply link.';
+      return;
+    }
   }
 
   wlUsedComments.add(cleanLink);
