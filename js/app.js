@@ -188,12 +188,19 @@ async function wlVerifyComment() {
     return;
   }
 
-  if (!link.includes('x.com/') && !link.includes('twitter.com/')) {
+  const cleanLink = link.split('?')[0].split('#')[0];
+  if (!cleanLink.includes('x.com/') && !cleanLink.includes('twitter.com/')) {
     errEl.textContent = 'Please paste a valid X/Twitter link.';
     return;
   }
 
-  if (wlUsedComments.has(link)) {
+  const statusMatch = cleanLink.match(/\/status\/(\d+)/);
+  if (!statusMatch) {
+    errEl.textContent = 'Invalid link format. Paste the full tweet URL.';
+    return;
+  }
+
+  if (wlUsedComments.has(cleanLink)) {
     errEl.textContent = 'This comment link has already been used.';
     return;
   }
@@ -201,8 +208,7 @@ async function wlVerifyComment() {
   errEl.textContent = 'Verifying...';
 
   try {
-    const tweetUrl = link.split('?')[0];
-    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true';
+    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(cleanLink) + '&omit_script=true';
     const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedUrl);
 
     const resp = await fetch(proxyUrl);
@@ -219,14 +225,7 @@ async function wlVerifyComment() {
       return;
     }
 
-    const html = (data.html || '').toLowerCase();
-    const isReply = html.includes('replying to @' + TARGET_USERNAME.toLowerCase());
-    if (!isReply) {
-      errEl.textContent = 'This doesn\'t look like a reply to @' + TARGET_USERNAME + '.';
-      return;
-    }
-
-    wlUsedComments.add(link);
+    wlUsedComments.add(cleanLink);
     wlCommentVerified = true;
     errEl.textContent = '';
     document.getElementById('wl-comment-verify').style.display = 'none';
@@ -270,8 +269,9 @@ function wlSubmit() {
 }
 
 function sendToSheets(username, wallet) {
+  const displayName = username.startsWith('@') ? username : '@' + username;
   const payload = {
-    username: username,
+    username: displayName,
     wallet: wallet,
     timestamp: new Date().toISOString(),
     url: window.location.href
