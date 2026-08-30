@@ -89,7 +89,7 @@ let wlCommentVerified = false;
 const wlUsedComments = new Set();
 
 // Google Sheets Webhook URL
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx_dev_placeholder/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzIbCVd4afllCNsaNCpb-pOmLARkTjUtmSfIfAEJGKTvHS8_uOqaYJwwpobrzfP3hnD/exec';
 
 function openWhitelistModal() {
   wlCurrentStep = 0;
