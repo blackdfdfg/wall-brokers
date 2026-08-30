@@ -34,6 +34,9 @@
     .back-link:hover { color:var(--lime); }
     .wl-back-btn { display:block; width:100%; padding:10px; margin-top:10px; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#888; font-family:'Space Mono',monospace; font-size:0.65rem; cursor:pointer; text-align:center; transition:all 0.2s; }
     .wl-back-btn:hover { border-color:rgba(198,242,33,0.3); color:var(--lime); }
+    .wl-spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:wl-spin 0.6s linear infinite; vertical-align:middle; margin-right:6px; }
+    @keyframes wl-spin { to { transform:rotate(360deg); } }
+    .wl-verify-loading { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px; margin-top:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-family:'Space Mono',monospace; font-size:0.7rem; color:#aaa; }
   </style>
 </head>
 <body style="background:#0a0a0a;">
@@ -60,7 +63,7 @@
       <div id="wl-step-1" class="wl-step-content">
         <h3 class="wl-heading">Like our post</h3>
         <p class="wl-desc">Tap below to open the post, like it, then come back.</p>
-        <a href="https://x.com/intent/like?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
+        <a href="https://x.com/intent/like?tweet_id=2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-like-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           Like this post
         </a>
@@ -76,7 +79,7 @@
       <div id="wl-step-2" class="wl-step-content">
         <h3 class="wl-heading">Repost our post</h3>
         <p class="wl-desc">Repost (RT) the post, then come back.</p>
-        <a href="https://x.com/intent/retweet?tweet_id=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
+        <a href="https://x.com/intent/retweet?tweet_id=2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-rt-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
           Repost this post
         </a>
@@ -92,15 +95,19 @@
       <div id="wl-step-3" class="wl-step-content">
         <h3 class="wl-heading">Comment on our post</h3>
         <p class="wl-desc">Leave a comment, then come back to verify.</p>
-        <a href="https://x.com/intent/tweet?in_reply_to=2093950736765960253" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
+        <a href="https://x.com/Wall_Brokers/status/2094096156116808078" target="_blank" rel="noopener" class="btn btn-primary wl-action-btn" id="wl-comment-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Comment on this post
         </a>
         <div id="wl-comment-verify" style="display:none">
-          <p class="wl-desc" style="margin-top:10px">Paste YOUR reply link (not the original post).</p>
+          <p class="wl-desc" style="margin-top:10px">Paste YOUR comment link (not the original post).</p>
           <input type="url" class="wl-input" id="wl-comment-link" placeholder="x.com/yourname/status/..." autocomplete="off">
           <div class="wl-error" id="wl-comment-error"></div>
-          <button class="btn btn-primary wl-continue" onclick="wlVerifyComment()">
+          <div class="wl-verify-loading" id="wl-comment-loading" style="display:none">
+            <div class="wl-spinner"></div>
+            <span>Verifying comment...</span>
+          </div>
+          <button class="btn btn-primary wl-continue" id="wl-verify-btn" onclick="wlVerifyComment()">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Verify
           </button>
@@ -140,7 +147,7 @@
 
   <script>
     const WL_TOTAL_STEPS = 6;
-    const TWEET_ID = '2093950736765960253';
+    const TWEET_ID = '2094096156116808078';
     const TARGET_USERNAME = 'NeoH0DL';
     let wlCurrentStep = 0;
     let wlData = {};
@@ -230,18 +237,26 @@
 
     function normalizeTweetUrl(raw) {
       var s = raw.trim().replace(/[\r\n\t]/g,'').replace(/\s+/g,'');
-      s = s.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com)/g,'//x.com');
+      s = s.replace(/\/\/(www\.)?(mobile\.)?(m\.)?(twitter\.com|x\.com)/g,'//x.com');
       if (!s.startsWith('http')) s = 'https://' + s;
-      var m = s.match(/(x\.com\/[^?#\s]+)/);
-      if (m) s = m[1];
       s = s.split('?')[0].split('#')[0];
       s = s.replace(/\/+$/,'');
       return s;
     }
 
-    async function fetchOembed(tweetUrl) {
-      var oembedDirect = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true&dnt=true';
-      var proxies = [oembedDirect, 'https://corsproxy.io/?' + encodeURIComponent(oembedDirect), 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(oembedDirect), 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedDirect)];
+    function extractStatusId(url) {
+      var m = url.match(/\/status\/(\d+)/);
+      return m ? m[1] : null;
+    }
+
+    async function fetchOembed(statusId) {
+      var genericUrl = 'https://x.com/i/status/' + statusId;
+      var oembedDirect = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(genericUrl) + '&omit_script=true&dnt=true';
+      var proxies = [
+        'https://corsproxy.io/?' + encodeURIComponent(oembedDirect),
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedDirect),
+        oembedDirect
+      ];
       for (var i = 0; i < proxies.length; i++) {
         try { var resp = await fetch(proxies[i], { signal: AbortSignal.timeout(5000) }); if (resp.ok) { var text = await resp.text(); return JSON.parse(text); } } catch(e) { continue; }
       }
@@ -251,20 +266,47 @@
     async function wlVerifyComment() {
       var rawLink = document.getElementById('wl-comment-link').value.trim();
       var errEl = document.getElementById('wl-comment-error');
+      var loadingEl = document.getElementById('wl-comment-loading');
+      var verifyBtn = document.getElementById('wl-verify-btn');
       errEl.textContent = '';
+
       if (!rawLink) { errEl.textContent = 'Please paste your comment link.'; return; }
+
       var cleanLink = normalizeTweetUrl(rawLink);
       if (!cleanLink.includes('x.com/')) { errEl.textContent = 'Please paste a valid X link.'; return; }
-      if (!cleanLink.match(/\/status\/\d+/)) { errEl.textContent = 'Invalid link format.'; return; }
-      var usernameInUrl = cleanLink.match(/x\.com\/([^/]+)\//);
-      if (usernameInUrl && usernameInUrl[1].toLowerCase() !== wlData.username.toLowerCase()) { errEl.textContent = 'This tweet is not from @' + wlData.username + '.'; return; }
-      if (wlUsedComments.has(cleanLink)) { errEl.textContent = 'This link has already been used.'; return; }
-      errEl.textContent = 'Verifying...';
-      var data = await fetchOembed(cleanLink);
-      if (data) { var authorName = (data.author_url || '').split('/').pop() || ''; if (authorName.toLowerCase() !== wlData.username.toLowerCase()) { errEl.textContent = 'Not from @' + wlData.username + '.'; return; } }
-      wlUsedComments.add(cleanLink);
+
+      var statusId = extractStatusId(cleanLink);
+      if (!statusId) { errEl.textContent = 'Invalid link — could not find status ID.'; return; }
+
+      if (wlUsedComments.has(statusId)) { errEl.textContent = 'This link has already been used.'; return; }
+
+      loadingEl.style.display = 'flex';
+      verifyBtn.style.display = 'none';
+      errEl.textContent = '';
+
+      var data = await fetchOembed(statusId);
+
+      loadingEl.style.display = 'none';
+      verifyBtn.style.display = 'flex';
+
+      if (!data) { errEl.textContent = 'Could not verify. Check link and try again.'; return; }
+
+      var authorName = (data.author_url || '').split('/').pop() || '';
+      if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
+        errEl.textContent = 'This tweet is not from @' + wlData.username + '.';
+        return;
+      }
+
+      var htmlStr = data.html || '';
+      var replyMatch = htmlStr.match(/in-reply-to="(\d+)"/);
+      if (replyMatch && replyMatch[1] !== TWEET_ID) {
+        errEl.textContent = 'This is not a reply to the WL post.';
+        return;
+      }
+
+      wlUsedComments.add(statusId);
       wlCommentVerified = true;
-      wlData.commentLink = cleanLink;
+      wlData.commentLink = 'https://x.com/' + authorName + '/status/' + statusId;
       saveWlState();
       errEl.textContent = '';
       document.getElementById('wl-comment-verify').style.display = 'none';
