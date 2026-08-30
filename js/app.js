@@ -198,16 +198,20 @@ async function wlVerifyComment() {
     return;
   }
 
+  errEl.textContent = 'Verifying...';
+
   try {
-    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(link);
-    const resp = await fetch(oembedUrl);
+    const tweetUrl = link.split('?')[0];
+    const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(tweetUrl) + '&omit_script=true';
+    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(oembedUrl);
+
+    const resp = await fetch(proxyUrl);
     if (!resp.ok) {
-      errEl.textContent = 'Could not verify this link. Check the URL and try again.';
+      errEl.textContent = 'Could not verify. Check the link and try again.';
       return;
     }
     const data = await resp.json();
 
-    // Check 1: author matches entered username
     const authorUrl = data.author_url || '';
     const authorName = authorUrl.split('/').pop() || '';
     if (authorName.toLowerCase() !== wlData.username.toLowerCase()) {
@@ -215,22 +219,21 @@ async function wlVerifyComment() {
       return;
     }
 
-    // Check 2: is it a reply to @NeoH0DL?
     const html = (data.html || '').toLowerCase();
     const isReply = html.includes('replying to @' + TARGET_USERNAME.toLowerCase());
     if (!isReply) {
-      errEl.textContent = 'This doesn\'t look like a valid reply from your account.';
+      errEl.textContent = 'This doesn\'t look like a reply to @' + TARGET_USERNAME + '.';
       return;
     }
 
-    // Passed both checks
     wlUsedComments.add(link);
     wlCommentVerified = true;
+    errEl.textContent = '';
     document.getElementById('wl-comment-verify').style.display = 'none';
     document.getElementById('wl-comment-done').style.display = 'flex';
     document.getElementById('wl-comment-next').style.display = 'flex';
   } catch (e) {
-    errEl.textContent = 'Verification failed. Please try again.';
+    errEl.textContent = 'Verification failed. Try again.';
   }
 }
 
