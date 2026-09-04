@@ -395,8 +395,7 @@ body::after {
 .info-inner {
   max-width: 480px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 1px;
   background: rgba(198, 242, 33, 0.08);
   border-radius: 10px;
@@ -407,6 +406,7 @@ body::after {
   background: rgba(26, 21, 16, 0.95);
   padding: 11px 4px;
   text-align: center;
+  flex: 1;
 }
 
 .info-label {
@@ -910,7 +910,6 @@ body::after {
   .hero { padding: 58px 10px 12px; }
   .hero-logo { width: 64px; height: 64px; }
   .hero-banner { border-radius: 10px; }
-  .info-inner { grid-template-columns: repeat(3, 1fr); }
   .info-item { padding: 9px 4px; }
   .actions { flex-direction: column; align-items: center; }
   .btn { width: 100%; max-width: 240px; justify-content: center; }
