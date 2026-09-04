@@ -910,7 +910,7 @@ body::after {
   .hero { padding: 58px 10px 12px; }
   .hero-logo { width: 64px; height: 64px; }
   .hero-banner { border-radius: 10px; }
-  .info-inner { grid-template-columns: repeat(2, 1fr); }
+  .info-inner { grid-template-columns: repeat(3, 1fr); }
   .info-item { padding: 9px 4px; }
   .actions { flex-direction: column; align-items: center; }
   .btn { width: 100%; max-width: 240px; justify-content: center; }
