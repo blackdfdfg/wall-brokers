@@ -195,5 +195,24 @@
   </div>
 
   <script src="js/app.js"></script>
+  <script>
+    (function() {
+      var el = document.getElementById('countdown-timer');
+      if (!el) return;
+      function tick() {
+        var now = Date.now();
+        var d = new Date();
+        var target = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 13, 30, 0, 0);
+        var diff = target - now;
+        if (diff <= 0) { el.textContent = '00:00:00'; return; }
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
 </body>
 </html>
