@@ -106,4 +106,8 @@ function startCountdown() {
   setInterval(updateTimer, 1000);
 }
 
-document.addEventListener('DOMContentLoaded', startCountdown);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startCountdown);
+} else {
+  startCountdown();
+}
