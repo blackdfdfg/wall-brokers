@@ -67,3 +67,38 @@ function updateNFTViewer() {
     }
   }, 100);
 }
+
+// ========== COUNTDOWN TIMER ==========
+function startCountdown() {
+  var timerEl = document.getElementById('countdown-timer');
+  if (!timerEl) return;
+
+  function updateTimer() {
+    var now = new Date();
+    var utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+    var utc6 = new Date(utcMs + (6 * 60 * 60 * 1000));
+    var target = new Date(utc6);
+    target.setHours(19, 30, 0, 0);
+
+    if (utc6 >= target) {
+      timerEl.textContent = '00:00:00';
+      timerEl.style.color = '#888';
+      return;
+    }
+
+    var diff = target - utc6;
+    var h = Math.floor(diff / (1000 * 60 * 60));
+    var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    timerEl.textContent =
+      String(h).padStart(2, '0') + ':' +
+      String(m).padStart(2, '0') + ':' +
+      String(s).padStart(2, '0');
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', startCountdown);
