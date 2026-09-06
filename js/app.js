@@ -73,20 +73,25 @@ function startCountdown() {
   var timerEl = document.getElementById('countdown-timer');
   if (!timerEl) return;
 
-  function updateTimer() {
+  function getTargetUTC6() {
     var now = new Date();
-    var utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-    var utc6 = new Date(utcMs + (6 * 60 * 60 * 1000));
-    var target = new Date(utc6);
-    target.setHours(19, 30, 0, 0);
+    var year = now.getUTCFullYear();
+    var month = now.getUTCMonth();
+    var day = now.getUTCDate();
+    return Date.UTC(year, month, day, 13, 30, 0, 0);
+  }
 
-    if (utc6 >= target) {
+  function updateTimer() {
+    var now = Date.now();
+    var target = getTargetUTC6();
+    var diff = target - now;
+
+    if (diff <= 0) {
       timerEl.textContent = '00:00:00';
       timerEl.style.color = '#888';
       return;
     }
 
-    var diff = target - utc6;
     var h = Math.floor(diff / (1000 * 60 * 60));
     var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     var s = Math.floor((diff % (1000 * 60)) / 1000);
