@@ -201,7 +201,7 @@
       if (!el) return;
       function tick() {
         var now = Date.now();
-        var d = new Date();
+        var d = new Date(now + 6 * 3600000);
         var target = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 13, 30, 0, 0);
         var diff = target - now;
         if (diff <= 0) { el.textContent = '00:00:00'; return; }
