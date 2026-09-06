@@ -194,6 +194,24 @@
     </footer>
   </div>
 
-  <script src="js/app.js?v=2"></script>
+  <script src="js/app.js?v=3"></script>
+  <script>
+  (function(){
+    var el=document.getElementById('countdown-timer');
+    if(!el)return;
+    function go(){
+      var n=Date.now();
+      var x=new Date(n+21600000);
+      var t=Date.UTC(x.getUTCFullYear(),x.getUTCMonth(),x.getUTCDate(),13,30,0,0);
+      var d=t-n;
+      if(d<=0){el.textContent='00:00:00';return;}
+      var h=Math.floor(d/3600000);
+      var m=Math.floor(d%3600000/60000);
+      var s=Math.floor(d%60000/1000);
+      el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    }
+    go();setInterval(go,1000);
+  })();
+  </script>
 </body>
 </html>
