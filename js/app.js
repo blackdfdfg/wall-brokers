@@ -73,17 +73,10 @@ function startCountdown() {
   var timerEl = document.getElementById('countdown-timer');
   if (!timerEl) return;
 
-  function getTargetUTC6() {
-    var now = new Date();
-    var year = now.getUTCFullYear();
-    var month = now.getUTCMonth();
-    var day = now.getUTCDate();
-    return Date.UTC(year, month, day, 13, 30, 0, 0);
-  }
-
   function updateTimer() {
     var now = Date.now();
-    var target = getTargetUTC6();
+    var d = new Date(now + 6 * 3600000);
+    var target = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 13, 30, 0, 0);
     var diff = target - now;
 
     if (diff <= 0) {
@@ -92,9 +85,9 @@ function startCountdown() {
       return;
     }
 
-    var h = Math.floor(diff / (1000 * 60 * 60));
-    var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    var s = Math.floor((diff % (1000 * 60)) / 1000);
+    var h = Math.floor(diff / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
 
     timerEl.textContent =
       String(h).padStart(2, '0') + ':' +
