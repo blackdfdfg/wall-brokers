@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Wall Brokers | Hold, Stake, Play, Earn</title>
-  <meta name="description" content="Wall Brokers - 999 NFTs. Stake, Game, Earn, Upgrade. A growing ecosystem on Robinhood Chain.">
+  <meta name="description" content="Wall Brokers - 300 NFTs. Stake, Game, Earn, Upgrade. A growing ecosystem on Robinhood Chain.">
   <link rel="stylesheet" href="css/styles.css?v=5">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
 </head>
@@ -63,7 +63,7 @@
     <!-- INFO BAND -->
     <div class="info-band">
       <div class="info-inner">
-        <div class="info-item"><div class="info-label">Supply</div><div class="info-val lime">999</div></div>
+        <div class="info-item"><div class="info-label">Supply</div><div class="info-val lime">300</div></div>
         <div class="info-item"><div class="info-label">Mint Date</div><div class="info-val lime">September 7</div></div>
         <div class="info-item"><div class="info-label">Chain</div><div class="info-val lime">Robinhood</div></div>
       </div>
@@ -118,10 +118,10 @@
       <div class="about-inner">
         <h3 class="about-title">What is Wall Brokers?</h3>
         <p class="about-text">
-          Wall Brokers is building an NFT ecosystem where holding actually gives you a reason to stay. With only 999 NFTs, holders will get access to staking, games, rewards, community benefits and future ecosystem opportunities. The goal isn't just to mint and disappear — it's to build something holders can keep using.
+          Wall Brokers is building an NFT ecosystem where holding actually gives you a reason to stay. With only 300 NFTs, holders will get access to staking, games, rewards, community benefits and future ecosystem opportunities. The goal isn't just to mint and disappear — it's to build something holders can keep using.
         </p>
         <div class="about-stats">
-          <div class="about-stat"><div class="about-stat-num">999</div><div class="about-stat-label">Supply</div></div>
+          <div class="about-stat"><div class="about-stat-num">300</div><div class="about-stat-label">Supply</div></div>
           <div class="about-stat"><div class="about-stat-num">2+</div><div class="about-stat-label">Hold to Unlock</div></div>
         </div>
       </div>
@@ -312,7 +312,7 @@
       <div class="future-inner">
         <div class="showcase-tag">Future</div>
         <h2 class="showcase-title">Future Ecosystem</h2>
-        <p class="future-desc">999 NFTs is only the starting point. As the ecosystem grows, we can introduce more mechanics around:</p>
+        <p class="future-desc">300 NFTs is only the starting point. As the ecosystem grows, we can introduce more mechanics around:</p>
         <div class="future-grid">
           <div class="future-card">
             <div class="future-emoji">🎮</div>
@@ -367,7 +367,7 @@
           <p>No reason for your NFT to just sit in a wallet.</p>
         </div>
         <div class="vision-tags">
-          <span>999 NFTs</span>
+          <span>300 NFTs</span>
           <span>Staking</span>
           <span>Gaming</span>
           <span>Rewards</span>
@@ -392,7 +392,7 @@
             <div class="roadmap-dot"></div>
             <div class="roadmap-content">
               <h4>Phase 1 — Mint & Access</h4>
-              <p>Launch 999 NFTs on Robinhood Chain. Whitelist, early drops, priority lanes — holders get in first.</p>
+              <p>Launch 300 NFTs on Robinhood Chain. Whitelist, early drops, priority lanes — holders get in first.</p>
             </div>
           </div>
           <div class="roadmap-item">
@@ -469,30 +469,6 @@
       el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
     }
     go();setInterval(go,1000);
-  })();
-
-  /* 7th Petal Rain — instant start, more petals, faster */
-  (function(){
-    var container = document.createElement('div');
-    container.className = 'seven-rain';
-    document.body.appendChild(container);
-
-    var text = '7th';
-    var sizes = [13, 16, 19, 22, 25, 14, 17, 20, 23, 26, 15, 18, 21, 24, 12, 16, 20, 24, 14, 18];
-    var lefts  = [3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 6, 18, 55, 85];
-    var delays = [0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8, 0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 0.1, 0.9, 1.7, 0.5, 2.5];
-    var durations = [7, 8, 6, 9, 7.5, 8.5, 6.5, 9.5, 7, 8, 6, 9, 7.5, 8.5, 6.5, 9, 7, 8, 6.5, 9.5];
-
-    for (var i = 0; i < 20; i++) {
-      var petal = document.createElement('div');
-      petal.className = 'seven-petal';
-      petal.textContent = text;
-      petal.style.left = lefts[i] + '%';
-      petal.style.fontSize = sizes[i] + 'px';
-      petal.style.animationDuration = durations[i] + 's';
-      petal.style.animationDelay = delays[i] + 's';
-      container.appendChild(petal);
-    }
   })();
   </script>
 </body>
