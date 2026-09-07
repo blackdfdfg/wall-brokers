@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Wall Brokers | NFT Collection</title>
-  <meta name="description" content="Wall Brokers - 999 unique pixel-art characters on Robinhood Chain.">
+  <title>Wall Brokers | Hold, Stake, Play, Earn</title>
+  <meta name="description" content="Wall Brokers - 999 NFTs. Stake, Game, Earn, Upgrade. A growing ecosystem on Robinhood Chain.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
 </head>
@@ -22,7 +22,6 @@
       <line x1="46" y1="70" x2="50" y2="100" stroke="#C6F221" stroke-width="0.7" opacity="0.6"/>
     </svg>
     <div class="loader-content">
-      <!-- Robinhood feather: black on lime circle -->
       <svg class="loader-feather" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" fill="#C6F221"/>
         <path d="M20 8 C22 8, 30 14, 31 22 C32 27, 29 33, 23 37 C21 38, 19 38, 17 37 C11 33, 8 27, 9 22 C10 14, 18 8, 20 8Z" fill="#000"/>
@@ -51,10 +50,8 @@
     <!-- HERO -->
     <section class="hero">
       <img src="images/profile.png" alt="Wall Brokers" class="hero-logo">
-
       <h1 class="hero-title">Wall Brokers</h1>
-      <p class="hero-sub">999 Unique Pixel-Art Brokers</p>
-
+      <p class="hero-sub">Hold. Stake. Play. Earn.</p>
       <div class="hero-badge">
         <svg class="hero-badge-icon" viewBox="0 0 40 40" fill="none">
           <path d="M20 8 C22 8, 30 14, 31 22 C32 27, 29 33, 23 37 C21 38, 19 38, 17 37 C11 33, 8 27, 9 22 C10 14, 18 8, 20 8Z" fill="currentColor"/>
@@ -63,7 +60,7 @@
       </div>
     </section>
 
-    <!-- INFO -->
+    <!-- INFO BAND -->
     <div class="info-band">
       <div class="info-inner">
         <div class="info-item"><div class="info-label">Supply</div><div class="info-val lime">999</div></div>
@@ -72,7 +69,7 @@
       </div>
     </div>
 
-    <!-- BUTTONS -->
+    <!-- BUTTONS + COUNTDOWN -->
     <div class="actions">
       <a href="https://x.com/Wall_Brokers" target="_blank" rel="noopener" class="btn btn-primary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -93,25 +90,17 @@
     <section class="showcase">
       <div class="showcase-tag">Collection</div>
       <h2 class="showcase-title">Meet the Brokers</h2>
-
       <div class="nft-viewer" id="nft-viewer" onclick="cycleNFT()">
         <div class="nft-frame">
           <img id="nft-display" src="images/nft/8.png" alt="Wall Broker">
-          <!-- Tap hand icon - always visible, pulsing -->
           <div class="nft-tap-icon" id="nft-tap">
             <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
               <g fill="rgba(0,0,0,0.85)">
-                <!-- Index finger pointing up -->
                 <rect x="30" y="0" width="10" height="42" rx="5"/>
-                <!-- Middle finger -->
                 <rect x="41" y="10" width="10" height="32" rx="5"/>
-                <!-- Ring finger -->
                 <rect x="52" y="16" width="10" height="26" rx="5"/>
-                <!-- Pinky finger -->
                 <rect x="63" y="22" width="10" height="20" rx="5"/>
-                <!-- Palm -->
                 <rect x="25" y="40" width="52" height="30" rx="6"/>
-                <!-- Thumb -->
                 <rect x="14" y="36" width="12" height="22" rx="6"/>
               </g>
             </svg>
@@ -129,14 +118,263 @@
       <div class="about-inner">
         <h3 class="about-title">What is Wall Brokers?</h3>
         <p class="about-text">
-          Wall Brokers is more than a collection of 999 unique pixel-art characters.
-          It's your access key to an exclusive ecosystem on the Robinhood Chain —
-          priority entry to future projects, a tight-knit community of builders,
-          and the door to what's next. Hold a Broker, hold the key.
+          Wall Brokers is building an NFT ecosystem where holding actually gives you a reason to stay. With only 999 NFTs, holders will get access to staking, games, rewards, community benefits and future ecosystem opportunities. The goal isn't just to mint and disappear — it's to build something holders can keep using.
         </p>
         <div class="about-stats">
           <div class="about-stat"><div class="about-stat-num">999</div><div class="about-stat-label">Supply</div></div>
+          <div class="about-stat"><div class="about-stat-num">2+</div><div class="about-stat-label">Hold to Unlock</div></div>
         </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- ECOSYSTEM FLOW -->
+    <section class="flow-section">
+      <div class="flow-inner">
+        <div class="showcase-tag">Ecosystem</div>
+        <h2 class="showcase-title">How It Works</h2>
+        <div class="flow-chain">
+          <div class="flow-step">
+            <div class="flow-icon">🖼️</div>
+            <div class="flow-label">Hold</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">💎</div>
+            <div class="flow-label">Stake</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">🎮</div>
+            <div class="flow-label">Play</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">💰</div>
+            <div class="flow-label">Earn</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">⬆️</div>
+            <div class="flow-label">Upgrade</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- HOLDER REQUIREMENT -->
+    <section class="feature-section">
+      <div class="feature-inner">
+        <div class="feature-header">
+          <div class="feature-icon">🔑</div>
+          <h3 class="feature-title">Holder Requirement</h3>
+        </div>
+        <p class="feature-text">
+          To unlock the main holder ecosystem, you'll need to hold a minimum of <strong>2 Wall Broker NFTs</strong>. Holding 2+ NFTs gives you access to the core staking and game features. The longer you stay, the more opportunities you unlock.
+        </p>
+      </div>
+    </section>
+
+    <!-- STAKING -->
+    <section class="feature-section">
+      <div class="feature-inner">
+        <div class="feature-header">
+          <div class="feature-icon">💎</div>
+          <h3 class="feature-title">Stake Your NFTs</h3>
+        </div>
+        <p class="feature-text">
+          Wall Broker NFTs won't just sit in your wallet. Eligible holders will be able to stake their NFTs and earn ecosystem rewards.
+        </p>
+        <div class="feature-grid">
+          <div class="feature-chip">Rewards</div>
+          <div class="feature-chip">Game Advantages</div>
+          <div class="feature-chip">Points / XP</div>
+          <div class="feature-chip">Special Access</div>
+          <div class="feature-chip">Future Holder Benefits</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE GAME -->
+    <section class="feature-section">
+      <div class="feature-inner">
+        <div class="feature-header">
+          <div class="feature-icon">🎮</div>
+          <h3 class="feature-title">The Game</h3>
+        </div>
+        <p class="feature-text">
+          The ecosystem will include a game built around the Wall Broker NFTs. Your NFT won't just be a profile picture — it can become part of your gameplay. Players will be able to compete, complete activities, earn XP, unlock features and potentially receive rewards through the game ecosystem.
+        </p>
+      </div>
+    </section>
+
+    <!-- PLAY EARN UPGRADE -->
+    <section class="feature-section">
+      <div class="feature-inner">
+        <div class="feature-header">
+          <div class="feature-icon">🚀</div>
+          <h3 class="feature-title">Play → Earn → Upgrade</h3>
+        </div>
+        <p class="feature-text">
+          The goal is to connect different parts of the ecosystem. Your activity can contribute to your progression.
+        </p>
+        <div class="feature-grid">
+          <div class="feature-chip">NFT Upgrades</div>
+          <div class="feature-chip">XP Systems</div>
+          <div class="feature-chip">Leaderboards</div>
+          <div class="feature-chip">Missions</div>
+          <div class="feature-chip">Limited Rewards</div>
+          <div class="feature-chip">Special Game Items</div>
+        </div>
+        <p class="feature-text" style="margin-top:10px">
+          The more you participate, the more you can potentially unlock.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- HOLDER REWARDS -->
+    <section class="rewards-section">
+      <div class="rewards-inner">
+        <div class="showcase-tag">Rewards</div>
+        <h2 class="showcase-title">Holder Benefits</h2>
+        <p class="rewards-desc">Wall Brokers focuses on giving long-term holders reasons to remain active.</p>
+        <div class="rewards-grid">
+          <div class="reward-card">
+            <div class="reward-icon">💰</div>
+            <div class="reward-label">Staking Rewards</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🎮</div>
+            <div class="reward-label">Game Rewards</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🎯</div>
+            <div class="reward-label">Exclusive Missions</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🏆</div>
+            <div class="reward-label">WL Opportunities</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🤝</div>
+            <div class="reward-label">Partner Collabs</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🎁</div>
+            <div class="reward-label">Limited Drops</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">⭐</div>
+            <div class="reward-label">Holder-Only Events</div>
+          </div>
+          <div class="reward-card">
+            <div class="reward-icon">🔓</div>
+            <div class="reward-label">2+ NFT Access</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- COMMUNITY -->
+    <section class="feature-section">
+      <div class="feature-inner">
+        <div class="feature-header">
+          <div class="feature-icon">🤝</div>
+          <h3 class="feature-title">Community + Partnerships</h3>
+        </div>
+        <p class="feature-text">
+          Wall Brokers isn't meant to exist as an isolated NFT collection. We want to build connections with other NFT and Web3 projects. That can create opportunities such as:
+        </p>
+        <div class="feature-grid">
+          <div class="feature-chip">Partner WLs</div>
+          <div class="feature-chip">Cross-Community Events</div>
+          <div class="feature-chip">Collaborative Drops</div>
+          <div class="feature-chip">Game Integrations</div>
+          <div class="feature-chip">Exclusive Campaigns</div>
+        </div>
+        <p class="feature-text" style="margin-top:10px">
+          The community becomes part of the network, not just the audience.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- FUTURE ECOSYSTEM -->
+    <section class="future-section">
+      <div class="future-inner">
+        <div class="showcase-tag">Future</div>
+        <h2 class="showcase-title">Future Ecosystem</h2>
+        <p class="future-desc">999 NFTs is only the starting point. As the ecosystem grows, we can introduce more mechanics around:</p>
+        <div class="future-grid">
+          <div class="future-card">
+            <div class="future-emoji">🎮</div>
+            <div class="future-label">Gaming</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">⚔️</div>
+            <div class="future-label">Competitions</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">🏆</div>
+            <div class="future-label">Leaderboards</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">💎</div>
+            <div class="future-label">Staking</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">🎁</div>
+            <div class="future-label">Rewards</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">🤝</div>
+            <div class="future-label">Partnerships</div>
+          </div>
+          <div class="future-card">
+            <div class="future-emoji">📈</div>
+            <div class="future-label">NFT Progression</div>
+          </div>
+        </div>
+        <p class="future-desc" style="margin-top:14px">The exact mechanics will evolve based on development and community feedback.</p>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- SIMPLE EXPERIENCE -->
+    <section class="vision-section">
+      <div class="vision-inner">
+        <h3 class="vision-title">The Vision</h3>
+        <div class="vision-flow">
+          <span>Mint</span><span class="vision-sep">→</span>
+          <span>Hold 2+</span><span class="vision-sep">→</span>
+          <span>Stake</span><span class="vision-sep">→</span>
+          <span>Play</span><span class="vision-sep">→</span>
+          <span>Earn</span><span class="vision-sep">→</span>
+          <span>Upgrade</span><span class="vision-sep">→</span>
+          <span>Repeat</span>
+        </div>
+        <div class="vision-list">
+          <p>No empty utility promises.</p>
+          <p>No reason for your NFT to just sit in a wallet.</p>
+        </div>
+        <div class="vision-tags">
+          <span>999 NFTs</span>
+          <span>Staking</span>
+          <span>Gaming</span>
+          <span>Rewards</span>
+          <span>Community</span>
+          <span>Growing Ecosystem</span>
+        </div>
+        <p class="vision-welcome">Welcome to Wall Brokers. 🧱🎮</p>
       </div>
     </section>
 
@@ -152,15 +390,31 @@
         <div class="roadmap-items">
           <div class="roadmap-item">
             <div class="roadmap-dot"></div>
-            <div class="roadmap-content"><h4>Access — The Key</h4><p>Every Broker is your passport into the Wall Brokers ecosystem. Whitelist, early drops, priority lanes — holders get in first.</p></div>
+            <div class="roadmap-content">
+              <h4>Phase 1 — Mint & Access</h4>
+              <p>Launch 999 NFTs on Robinhood Chain. Whitelist, early drops, priority lanes — holders get in first.</p>
+            </div>
           </div>
           <div class="roadmap-item">
-            <div class="roadmap-dot"></div>
-            <div class="roadmap-content"><h4>Community — The Wall</h4><p>A tight circle of builders, collectors, and believers. Exclusive spaces, direct input on the project's direction, and a seat at the table.</p></div>
+            <div class="roadmap-dot pending"></div>
+            <div class="roadmap-content">
+              <h4>Phase 2 — Staking Launch</h4>
+              <p>Eligible holders (2+ NFTs) unlock staking. Earn rewards, XP, and special access through active participation.</p>
+            </div>
           </div>
           <div class="roadmap-item">
-            <div class="roadmap-dot"></div>
-            <div class="roadmap-content"><h4>Expansion — What's Next</h4><p>New collections, cross-project partnerships, and real-world touchpoints. Wall Brokers opens doors that stay closed for everyone else.</p></div>
+            <div class="roadmap-dot pending"></div>
+            <div class="roadmap-content">
+              <h4>Phase 3 — Game Release</h4>
+              <p>The Wall Broker game goes live. Compete, complete missions, earn rewards, and climb the leaderboards.</p>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-dot pending"></div>
+            <div class="roadmap-content">
+              <h4>Phase 4 — Ecosystem Expansion</h4>
+              <p>NFT upgrades, cross-project partnerships, collaborative drops, and community-driven development.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -182,6 +436,10 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             @Wall_Brokers
           </a>
+          <a href="https://opensea.io/collection/wall-brokers" target="_blank" rel="noopener" class="footer-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            OpenSea
+          </a>
           <div class="footer-chain">
             <svg viewBox="0 0 40 40" fill="none">
               <path d="M20 8 C22 8, 30 14, 31 22 C32 27, 29 33, 23 37 C21 38, 19 38, 17 37 C11 33, 8 27, 9 22 C10 14, 18 8, 20 8Z" fill="currentColor"/>
@@ -194,7 +452,7 @@
     </footer>
   </div>
 
-  <script src="js/app.js?v=3"></script>
+  <script src="js/app.js?v=4"></script>
   <script>
   (function(){
     var el=document.getElementById('countdown-timer');
