@@ -59,7 +59,7 @@ body::after {
 
 #main-site { position: relative; z-index: 1; }
 
-/* ========== 7 PETAL RAIN ========== */
+/* ========== 7th PETAL RAIN ========== */
 .seven-rain {
   position: fixed;
   inset: 0;
@@ -70,7 +70,7 @@ body::after {
 
 .seven-petal {
   position: absolute;
-  top: -60px;
+  top: -50px;
   font-family: 'Space Mono', monospace;
   font-weight: 700;
   color: var(--lime);
@@ -83,21 +83,21 @@ body::after {
 @keyframes sevenFall {
   0% {
     opacity: 0;
-    transform: translateY(-60px) rotate(0deg) translateX(0px);
+    transform: translateY(-50px) rotate(0deg) translateX(0px);
   }
-  8% {
-    opacity: 0.18;
+  5% {
+    opacity: 0.25;
   }
   50% {
-    opacity: 0.12;
-    transform: translateY(50vh) rotate(25deg) translateX(30px);
+    opacity: 0.18;
+    transform: translateY(50vh) rotate(30deg) translateX(25px);
   }
-  90% {
-    opacity: 0.06;
+  85% {
+    opacity: 0.1;
   }
   100% {
     opacity: 0;
-    transform: translateY(105vh) rotate(50deg) translateX(-20px);
+    transform: translateY(105vh) rotate(60deg) translateX(-15px);
   }
 }
 

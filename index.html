@@ -471,24 +471,25 @@
     go();setInterval(go,1000);
   })();
 
-  /* 7 Petal Rain — perfect balance: not too fast, not too many */
+  /* 7th Petal Rain — instant start, more petals, faster */
   (function(){
     var container = document.createElement('div');
     container.className = 'seven-rain';
     document.body.appendChild(container);
 
-    var sizes = [14, 18, 22, 26, 16, 20];
-    var delays = [0, 2.5, 5, 7.5, 10, 13, 16, 19, 22, 25];
-    var duration = [14, 16, 18, 15, 17, 19, 13, 20, 16, 14];
-    var lefts = [5, 12, 22, 35, 48, 58, 68, 78, 88, 94];
+    var text = '7th';
+    var sizes = [13, 16, 19, 22, 25, 14, 17, 20, 23, 26, 15, 18, 21, 24, 12, 16, 20, 24, 14, 18];
+    var lefts  = [3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 6, 18, 55, 85];
+    var delays = [0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8, 0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 0.1, 0.9, 1.7, 0.5, 2.5];
+    var durations = [7, 8, 6, 9, 7.5, 8.5, 6.5, 9.5, 7, 8, 6, 9, 7.5, 8.5, 6.5, 9, 7, 8, 6.5, 9.5];
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 20; i++) {
       var petal = document.createElement('div');
       petal.className = 'seven-petal';
-      petal.textContent = '7';
+      petal.textContent = text;
       petal.style.left = lefts[i] + '%';
-      petal.style.fontSize = sizes[i % sizes.length] + 'px';
-      petal.style.animationDuration = duration[i] + 's';
+      petal.style.fontSize = sizes[i] + 'px';
+      petal.style.animationDuration = durations[i] + 's';
       petal.style.animationDelay = delays[i] + 's';
       container.appendChild(petal);
     }
